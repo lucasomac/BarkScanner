@@ -24,7 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Gravador"></activity>
+        <activity android:name=".Gravador" />
+        <activity android:name=".ActivityCachorro"></activity>
     </application>
 
 </manifest>

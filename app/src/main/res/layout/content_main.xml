@@ -52,14 +52,6 @@
             fab:fab_label="@string/menu_item_latido"
             fab:fab_size="mini" />
 
-        <!--<com.github.clans.fab.FloatingActionButton-->
-        <!--android:id="@+id/fab3"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@android:drawable/ic_menu_delete"-->
-        <!--fab:fab_label="@string/app_name"-->
-        <!--fab:fab_size="mini" />-->
-
     </com.github.clans.fab.FloatingActionMenu>
 
 </RelativeLayout>

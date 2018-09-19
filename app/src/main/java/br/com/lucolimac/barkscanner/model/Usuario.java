@@ -1,18 +1,17 @@
 package br.com.lucolimac.barkscanner.model;
 
-import java.util.Base64;
 import java.util.Objects;
 
 public class Usuario {
     private String nome;
     private String email;
-    private Base64 senha;
+    private String senha;
     private String uf;
     private String cidade;
     private String bairro;
     private String cpf;
 
-    public Usuario(String nome, String email, Base64 senha, String uf, String cidade, String bairro, String cpf) {
+    public Usuario(String nome, String email, String senha, String uf, String cidade, String bairro, String cpf) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -41,11 +40,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public Base64 getSenha() {
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(Base64 senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 

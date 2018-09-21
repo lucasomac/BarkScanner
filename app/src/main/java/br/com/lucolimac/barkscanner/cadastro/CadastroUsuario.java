@@ -8,14 +8,15 @@ import android.widget.Spinner;
 import br.com.lucolimac.barkscanner.R;
 
 public class CadastroUsuario extends AppCompatActivity {
-    private Spinner spinnerUf;
+    private Spinner spinUF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_usuario);
-        spinnerUf = findViewById(R.id.uf);
-        String ufs[] = getResources().getStringArray(R.array.lista_uf);
-        spinnerUf.setAdapter(new ArrayAdapter<String>(getBaseContext(), R.layout.activity_cadastro_usuario, ufs));
+        spinUF = findViewById(R.id.spinUF);
+        //String uf_br[] = getResources().getStringArray(R.array.lista_uf);
+        spinUF.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
+        spinUF.setSelection(24);
     }
 }

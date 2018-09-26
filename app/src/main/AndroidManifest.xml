@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".cadastro.Gravador" />
-        <activity android:name=".list.ActivityCachorro" />
+        <activity android:name=".view.ActivityCachorro" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_login" />

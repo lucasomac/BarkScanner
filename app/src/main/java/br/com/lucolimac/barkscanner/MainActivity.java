@@ -11,7 +11,7 @@ import android.view.View;
 import com.github.clans.fab.FloatingActionButton;
 
 import br.com.lucolimac.barkscanner.cadastro.Gravador;
-import br.com.lucolimac.barkscanner.list.ActivityCachorro;
+import br.com.lucolimac.barkscanner.view.ActivityCachorro;
 
 public class MainActivity extends AppCompatActivity {
 

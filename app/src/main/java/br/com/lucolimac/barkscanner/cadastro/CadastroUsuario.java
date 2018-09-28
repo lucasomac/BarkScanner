@@ -17,17 +17,15 @@ import java.util.ArrayList;
 
 import br.com.lucolimac.barkscanner.R;
 import br.com.lucolimac.barkscanner.local.Cidade;
-import br.com.lucolimac.barkscanner.local.Estado;
 
 public class CadastroUsuario extends AppCompatActivity {
     private Spinner spinUF, spinCidade;
-    private ArrayAdapter<Estado> estadoArrayAdapter;
+    private ArrayAdapter<String> estadoArrayAdapter;
     private ArrayAdapter<Cidade> cidadeArrayAdapter;
     private ArrayList<String> estados;
     private ArrayList<String> cidades;
     private FirebaseDatabase database;
     private DatabaseReference referencia;
-    private AdapterView.OnItemSelectedListener estadoListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,41 +38,35 @@ public class CadastroUsuario extends AppCompatActivity {
         estados = new ArrayList<>();
         cidades = new ArrayList<>();
         criaListaEstados();
-//        criaListaCidades();
-        estadoArrayAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
-        spinUF.setAdapter(estadoArrayAdapter);
 //        spinUF.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
-        spinUF.setSelection(24);
 //        spinCidade.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
-        estadoListener = new AdapterView.OnItemSelectedListener() {
+
+        spinUF.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Object objeto = parent.getItemAtPosition(position);
-
+                criaListaCidades();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        };
+        });
     }
 
     private void criaListaEstados() {
         referencia.child("estados").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //final List<String> estados = new ArrayList<String>();
-
                 for (DataSnapshot estadoSnapshot : dataSnapshot.getChildren()) {
                     String estado = estadoSnapshot.child("nome").getValue(String.class);
                     estados.add(estado.toUpperCase());
                 }
-                spinUF = findViewById(R.id.spinUF);
-                ArrayAdapter<String> estadosAdapter = new ArrayAdapter<String>
+                estadoArrayAdapter = new ArrayAdapter<String>
                         (CadastroUsuario.this, android.R.layout.simple_spinner_item, estados);
-                estadosAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinUF.setAdapter(estadosAdapter);
+                estadoArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinUF.setAdapter(estadoArrayAdapter);
+                spinUF.setSelection(24);
             }
 
             @Override
@@ -85,14 +77,14 @@ public class CadastroUsuario extends AppCompatActivity {
     }
 
     private void criaListaCidades() {
-        referencia.child("estados").addValueEventListener(new ValueEventListener() {
+        referencia.child("estados").child("nome").child("cidades").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 // final List<String> cidade = new ArrayList<>();
 
                 for (DataSnapshot cidadeSnapshot : dataSnapshot.getChildren()) {
-                    String cidadeNome = cidadeSnapshot.child("cidades").getValue(String.class);
+                    String cidadeNome = cidadeSnapshot.child("nome").getValue(String.class);
                     cidades.add(cidadeNome.toUpperCase());
                 }
                 spinCidade = findViewById(R.id.spinCidade);

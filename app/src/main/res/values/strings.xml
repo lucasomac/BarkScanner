@@ -13,6 +13,7 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
+    <!--<string name="path_password_strike_through"></string>-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Senha</string>
     <string name="prompt_name">Nome</string>
@@ -23,10 +24,11 @@
     <string name="action_sign_in">LOGIN</string>
     <string name="action_register">Criar conta</string>
     <!--<string name="action_sign_in_short">Sign in</string>-->
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_email">Email iniválido!</string>
+    <string name="error_invalid_password">A senha deve ser deve conter 8 digítos ou mais! A senha deve conter letras
+    maiúsculas, minúsculas e números!</string>
+    <string name="error_incorrect_password">A senha está incorreta!</string>
+    <string name="error_field_required">O email não pode ser vazio</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>

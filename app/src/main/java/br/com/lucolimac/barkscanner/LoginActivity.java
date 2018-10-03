@@ -28,6 +28,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +66,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private Button mRegisterButton;
+    //Firebase Auth
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private String mCustomToken;
+    //private TokenBroadcastReceiver mTokenReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = findViewById(R.id.email);
+        mAuth = FirebaseAuth.getInstance();
         populateAutoComplete();
 
         mPasswordView = findViewById(R.id.password);
@@ -99,6 +108,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
 
     private void populateAutoComplete() {
@@ -183,7 +200,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         }
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -204,7 +220,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 8 && containsDigit(password) && containsLowerCase(password) && containsLowerCase(password);
     }
 
     /**
@@ -353,5 +369,58 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+//            ((TextView) findViewById(R.id.text_sign_in_status)).setText(
+//                    "User ID: " + user.getUid());
+        } else {
+//            ((TextView) findViewById(R.id.text_sign_in_status)).setText(
+//                    "Error: sign in failed.");
+        }
+    }
+
+    public boolean containsDigit(String palavra) {
+        // cria um array de char
+        char[] c = palavra.toCharArray();
+        boolean d = false;
+        for (int i = 0; i < c.length; i++) {
+            // verifica se o char não é um dígito
+            if (Character.isDigit(c[i])) {
+                d = true;
+                break;
+            }
+        }
+        return d;
+    }
+
+    public boolean containsLowerCase(String palavra) {
+        // cria um array de char
+        char[] c = palavra.toCharArray();
+        boolean d = false;
+        for (int i = 0; i < c.length; i++) {
+            // verifica se o char não é um dígito
+            if (Character.isLowerCase(c[i])) {
+                d = true;
+                break;
+            }
+        }
+        return d;
+    }
+
+    public boolean containsUpperCase(String palavra) {
+        // cria um array de char
+        char[] c = palavra.toCharArray();
+        boolean d = false;
+        for (int i = 0; i < c.length; i++) {
+            // verifica se o char não é um dígito
+            if (Character.isUpperCase(c[i])) {
+                d = true;
+                break;
+            }
+        }
+        return d;
+    }
 }
+
 

@@ -7,6 +7,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,15 +19,21 @@ import java.util.ArrayList;
 
 import br.com.lucolimac.barkscanner.R;
 import br.com.lucolimac.barkscanner.local.Cidade;
+import br.com.lucolimac.barkscanner.local.Estado;
 
+//        spinUF.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
+//        spinCidade.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
 public class CadastroUsuario extends AppCompatActivity {
     private Spinner spinUF, spinCidade;
-    private ArrayAdapter<String> estadoArrayAdapter;
+    private ArrayAdapter<Estado> estadoArrayAdapter;
     private ArrayAdapter<Cidade> cidadeArrayAdapter;
-    private ArrayList<String> estados;
-    private ArrayList<String> cidades;
+    private ArrayList<Estado> estados;
+    private ArrayList<Cidade> cidades;
     private FirebaseDatabase database;
     private DatabaseReference referencia;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +46,27 @@ public class CadastroUsuario extends AppCompatActivity {
         estados = new ArrayList<>();
         cidades = new ArrayList<>();
         criaListaEstados();
-//        spinUF.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
-//        spinCidade.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
-
         spinUF.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinCidade.setEnabled(true);
                 criaListaCidades();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                spinCidade.setEnabled(false);
             }
         });
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    private void criaListaCidades() {
+        cidades = ((Estado) spinUF.getSelectedItem()).getCidades();
+        cidadeArrayAdapter = new ArrayAdapter<Cidade>
+                (CadastroUsuario.this, android.R.layout.simple_spinner_item, cidades);
+        cidadeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinCidade.setAdapter(cidadeArrayAdapter);
     }
 
     private void criaListaEstados() {
@@ -59,39 +74,14 @@ public class CadastroUsuario extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot estadoSnapshot : dataSnapshot.getChildren()) {
-                    String estado = estadoSnapshot.child("nome").getValue(String.class);
-                    estados.add(estado.toUpperCase());
+                    Estado estado = estadoSnapshot.getValue(Estado.class);
+                    estados.add(estado);
                 }
-                estadoArrayAdapter = new ArrayAdapter<String>
+                estadoArrayAdapter = new ArrayAdapter<>
                         (CadastroUsuario.this, android.R.layout.simple_spinner_item, estados);
                 estadoArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinUF.setAdapter(estadoArrayAdapter);
                 spinUF.setSelection(24);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void criaListaCidades() {
-        referencia.child("estados").child("nome").child("cidades").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                // final List<String> cidade = new ArrayList<>();
-
-                for (DataSnapshot cidadeSnapshot : dataSnapshot.getChildren()) {
-                    String cidadeNome = cidadeSnapshot.child("nome").getValue(String.class);
-                    cidades.add(cidadeNome.toUpperCase());
-                }
-                spinCidade = findViewById(R.id.spinCidade);
-                ArrayAdapter<String> cidadesAdapter = new ArrayAdapter<String>
-                        (CadastroUsuario.this, android.R.layout.simple_spinner_item, cidades);
-                cidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinCidade.setAdapter(cidadesAdapter);
             }
 
             @Override

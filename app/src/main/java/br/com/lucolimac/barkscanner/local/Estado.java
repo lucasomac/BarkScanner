@@ -15,6 +15,10 @@ public class Estado {
         this.cidades = cidades;
     }
 
+    public Estado() {
+
+    }
+
     public String getNome() {
         return nome;
     }
@@ -41,6 +45,6 @@ public class Estado {
 
     @Override
     public String toString() {
-        return sigla;
+        return nome.toUpperCase();
     }
 }

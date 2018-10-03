@@ -1,22 +1,15 @@
 package br.com.lucolimac.barkscanner.local;
 
 public class Cidade {
-    private Estado estado;
     private String nome;
 
-    public Cidade(Estado estado, String nome) {
-        this.estado = estado;
+    public Cidade(String nome) {
         this.nome = nome;
     }
 
-    public Estado getEstado() {
-        return estado;
-    }
+    public Cidade() {
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
     }
-
     public String getNome() {
         return nome;
     }
@@ -27,7 +20,7 @@ public class Cidade {
 
     @Override
     public String toString() {
-        return nome;
+        return nome.toUpperCase();
     }
 
 }

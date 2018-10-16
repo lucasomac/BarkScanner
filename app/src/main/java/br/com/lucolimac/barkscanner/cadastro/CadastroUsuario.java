@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import br.com.lucolimac.barkscanner.R;
 import br.com.lucolimac.barkscanner.local.Cidade;
 import br.com.lucolimac.barkscanner.local.Estado;
+import br.com.lucolimac.barkscanner.model.Usuario;
 
 //        spinUF.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
 //        spinCidade.setAdapter(ArrayAdapter.createFromResource(this, R.array.lista_uf, R.layout.support_simple_spinner_dropdown_item));
@@ -29,11 +32,19 @@ public class CadastroUsuario extends AppCompatActivity {
     private ArrayAdapter<Cidade> cidadeArrayAdapter;
     private ArrayList<Estado> estados;
     private ArrayList<Cidade> cidades;
+    private static final String TAG = "EmailPassword";
+    private Button criaUsuario;
+    //Firebase
+    private Usuario user;
     private FirebaseDatabase database;
     private DatabaseReference referencia;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +70,29 @@ public class CadastroUsuario extends AppCompatActivity {
             }
         });
         mAuth = FirebaseAuth.getInstance();
+        criaUsuario = findViewById(R.id.email_register_button);
+        criaUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user = new Usuario(((TextView) findViewById(R.id.nome)).getText().toString(),
+                        ((TextView) findViewById(R.id.email)).getText().toString(),
+                        ((TextView) findViewById(R.id.password)).getText().toString(),
+                        ((Spinner) findViewById(R.id.spinUF)).getSelectedItem().toString(),
+                        ((Spinner) findViewById(R.id.spinCidade)).getSelectedItem().toString(),
+                        ((TextView) findViewById(R.id.bairro)).getText().toString(),
+                        ((TextView) findViewById(R.id.cpf)).getText().toString());
+                referencia.child("usuarios").push().setValue(user);
+                //                mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getSenha())
+//                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//
+//                            }
+//                        });
+            }
+        });
     }
+
 
     private void criaListaCidades() {
         cidades = ((Estado) spinUF.getSelectedItem()).getCidades();

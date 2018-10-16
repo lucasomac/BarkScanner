@@ -30,6 +30,22 @@ public class MainActivity extends AppCompatActivity
     private FirebaseUser currentUser;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        // Check if user is signed in (non-null) and update UI accordingly.
+
+        if (currentUser != null) {
+            email_view = findViewById(R.id.email_text_view);
+            //email_view.setText(currentUser.getEmail());
+            name_view = findViewById(R.id.name_text_view);
+            //name_view.setText(currentUser.getDisplayName());
+        } else Toast.makeText(this, "Tá errado carai", Toast.LENGTH_LONG);
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -37,13 +53,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        email_view = findViewById(R.id.email_text_view);
-        if (currentUser != null)
-            System.out.println(currentUser.getDisplayName());
-        else Toast.makeText(this, "Tá errado carai", Toast.LENGTH_LONG);
-        //email_view.setText(currentUser.getUid());
-        name_view = findViewById(R.id.name_text_view);
-        // name_view.setText(currentUser.getUid());
+
         fabLatido = findViewById(R.id.fabLatido);
         fabCachorro = findViewById(R.id.fabCachorro);
         fabLatido.setOnClickListener(new View.OnClickListener() {
@@ -108,18 +118,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_latido) {
+            //startActivity(new Intent(MainActivity.this, ActivityLatido.class));
+        } else if (id == R.id.nav_cachorro) {
+            startActivity(new Intent(this, ActivityCachorro.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

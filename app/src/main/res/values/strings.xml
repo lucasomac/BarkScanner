@@ -10,6 +10,8 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="menu_item_cachorro">Cachorro</string>
     <string name="menu_item_latido">Latido</string>
+    <string name="menu_item_cachorro_nav">Cachorros</string>
+    <string name="menu_item_latido_nav">Latidos</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -32,36 +34,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-
-    <!--Referentes ao Spinner dos estados-->
-    <string-array name="lista_uf">
-        <item>AC</item>
-        <item>AL</item>
-        <item>AM</item>
-        <item>AP</item>
-        <item>BA</item>
-        <item>CE</item>
-        <item>DF</item>
-        <item>ES</item>
-        <item>GO</item>
-        <item>MA</item>
-        <item>MG</item>
-        <item>MS</item>
-        <item>MT</item>
-        <item>PA</item>
-        <item>PB</item>
-        <item>PE</item>
-        <item>PI</item>
-        <item>PR</item>
-        <item>RJ</item>
-        <item>RN</item>
-        <item>RO</item>
-        <item>RS</item>
-        <item>RR</item>
-        <item>SC</item>
-        <item>SE</item>
-        <item>SP</item>
-        <item>TO</item>
-    </string-array>
     <string name="title_activity_main">BarkScanner</string>
 </resources>

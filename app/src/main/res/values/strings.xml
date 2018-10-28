@@ -2,7 +2,6 @@
     <string name="app_name">BarkScanner</string>
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
-    <string name="title_activity_profile_menu">ProfileMenu</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -12,27 +11,22 @@
     <string name="menu_item_latido">Latido</string>
     <string name="menu_item_cachorro_nav">Cachorros</string>
     <string name="menu_item_latido_nav">Latidos</string>
-    <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
     <!--<string name="path_password_strike_through"></string>-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Senha</string>
     <string name="prompt_name">Nome</string>
-    <string name="prompt_uf">UF</string>
-    <string name="prompt_cidade">Cidade</string>
     <string name="prompt_bairro">Bairro</string>
     <string name="prompt_cpf">CPF</string>
     <string name="action_sign_in">LOGIN</string>
     <string name="action_register">Criar conta</string>
     <!--<string name="action_sign_in_short">Sign in</string>-->
-    <string name="error_invalid_email">Email iniválido!</string>
-    <string name="error_invalid_password">A senha deve ser deve conter 8 digítos ou mais! A senha deve conter letras
-    maiúsculas, minúsculas e números!</string>
-    <string name="error_incorrect_password">A senha está incorreta!</string>
-    <string name="error_field_required">O email não pode ser vazio</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="title_activity_main">BarkScanner</string>
+    <string name="sair_button">Sair</string>
+    <string name="sobre_button">Sobre</string>
+    <!--Facebook-->
+    <string name="facebook_application_id" translatable="false">1857006581064469</string>
+    <string name="fb_login_protocol_scheme">fb1857006581064469</string>
+
 </resources>

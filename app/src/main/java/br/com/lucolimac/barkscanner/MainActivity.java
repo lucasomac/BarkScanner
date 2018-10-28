@@ -2,21 +2,21 @@ package br.com.lucolimac.barkscanner;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import br.com.lucolimac.barkscanner.cadastro.Gravador;
 import br.com.lucolimac.barkscanner.view.ActivityCachorro;
 
@@ -34,14 +34,14 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        // Check if user is signed in (non-null) and update UI accordingly.
-
         if (currentUser != null) {
             email_view = findViewById(R.id.email_text_view);
             //email_view.setText(currentUser.getEmail());
             name_view = findViewById(R.id.name_text_view);
             //name_view.setText(currentUser.getDisplayName());
-        } else Toast.makeText(this, "Tá errado carai", Toast.LENGTH_LONG);
+        } else Toast.makeText(this, "Usúario não logado", Toast.LENGTH_LONG);
+        // Check if user is signed in (non-null) and update UI accordingly.
+
 
     }
 
@@ -51,9 +51,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-
         fabLatido = findViewById(R.id.fabLatido);
         fabCachorro = findViewById(R.id.fabCachorro);
         fabLatido.setOnClickListener(new View.OnClickListener() {
@@ -122,8 +119,11 @@ public class MainActivity extends AppCompatActivity
             //startActivity(new Intent(MainActivity.this, ActivityLatido.class));
         } else if (id == R.id.nav_cachorro) {
             startActivity(new Intent(this, ActivityCachorro.class));
+        } else if (id == R.id.nav_sobre) {
+        } else if (id == R.id.nav_sair) {
+            mAuth.signOut();
+            startActivity(new Intent(this, LoginActivity.class));
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

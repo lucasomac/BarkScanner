@@ -2,9 +2,9 @@ package br.com.lucolimac.barkscanner.cadastro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
 import br.com.lucolimac.barkscanner.MainActivity;
 import br.com.lucolimac.barkscanner.R;
 

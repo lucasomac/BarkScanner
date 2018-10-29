@@ -39,7 +39,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Create and launch sign-in intent
         startActivityForResult(AuthUI.getInstance()
-                .createSignInIntentBuilder().setAvailableProviders(providers)
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .setLogo(R.drawable.logo_dog_paw)      // Set logo drawable
+                .setTheme(R.style.AppTheme)
                 .build(), RC_SIGN_IN);
     }
 

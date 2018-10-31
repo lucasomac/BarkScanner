@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,17 +30,23 @@ public class LoginActivity extends AppCompatActivity {
             new AuthUI.IdpConfig.GoogleBuilder().build(),
             new AuthUI.IdpConfig.FacebookBuilder().build());
     private static final String TAG = "EmailPassword";
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("usuario");
-
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private DatabaseReference mDatabaseReference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        //setContentView(R.layout.activity_login);
+        database = FirebaseDatabase.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mDatabaseReference = database.getReference().child("usuarios");
         // Create and launch sign-in intent
         startActivityForResult(AuthUI.getInstance()
                 .createSignInIntentBuilder()
+                .setIsSmartLockEnabled(false)
                 .setAvailableProviders(providers)
                 .setLogo(R.drawable.logo_dog_paw)      // Set logo drawable
                 .setTheme(R.style.AppTheme)
@@ -58,13 +65,20 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 Log.d(TAG, "signIn:" + user.getEmail());
                 startActivity(new Intent(this, MainActivity.class));
+                finish();
                 // ...
             } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-                Toast.makeText(this, "Usuário ou senha invalídos!", Toast.LENGTH_LONG);
+                // Sign in failed
+                if (response == null) {
+                    // User pressed back button
+                    Toast.makeText(null, "Usuário e/ou senha inválidos", Toast.LENGTH_LONG);
+                    return;
+                }
+
+                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                    Toast.makeText(null, "SEM CONEXÃO COM A INTERNET", Toast.LENGTH_LONG);
+                    return;
+                }
             }
         }
     }

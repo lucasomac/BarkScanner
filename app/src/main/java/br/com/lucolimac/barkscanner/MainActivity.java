@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +29,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import br.com.lucolimac.barkscanner.cadastro.Gravador;
 import br.com.lucolimac.barkscanner.view.ActivityCachorro;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private TextView email_view;
-    private TextView name_view;
     private com.github.clans.fab.FloatingActionButton fabCachorro, fabLatido;
     //Firebase Auth
     private static final int RC_SIGN_IN = 123;
@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private DatabaseReference mDatabaseReference;
     private FirebaseUser currentUser;
+    private String userName;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,30 +58,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         database = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseReference = database.getReference().child("usuarios");
-        // Create and launch sign-in intent
-        startActivityForResult(AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setIsSmartLockEnabled(false)
-                .setAvailableProviders(providers)
-                .setLogo(R.drawable.logo_dog_paw)      // Set logo drawable
-                .setTheme(R.style.AppTheme)
-                .build(), RC_SIGN_IN);
+        TextView email_view;
+        TextView name_view;
+        email_view = findViewById(R.id.email_text_view);
+        name_view = findViewById(R.id.name_text_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        fabLatido = findViewById(R.id.fabLatido);
-//        fabCachorro = findViewById(R.id.fabCachorro);
-//        fabLatido.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, Gravador.class));
-//            }
-//        });
-//        fabCachorro.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, ActivityCachorro.class));
-//            }
-//        });
+        fabLatido = findViewById(R.id.fabLatido);
+        fabCachorro = findViewById(R.id.fabCachorro);
+        fabLatido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Gravador.class));
+            }
+        });
+        fabCachorro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ActivityCachorro.class));
+            }
+        });
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -90,6 +88,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                currentUser = mFirebaseAuth.getCurrentUser();
+                if (currentUser != null) {
+                    onSignedInInitialize(currentUser.getDisplayName(), currentUser.getEmail());
+                } else {
+                    onSignedOutCleanUp();
+                    // Create and launch sign-in intent
+                    startActivityForResult(AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setIsSmartLockEnabled(false)
+                            .setAvailableProviders(providers)
+                            .setLogo(R.drawable.logo_dog_paw)      // Set logo drawable
+                            .setTheme(R.style.AppTheme)
+                            .build(), RC_SIGN_IN);
+                }
+            }
+        };
+        email_view.setText(userEmail);
+        name_view.setText(userName);
     }
 
     @Override
@@ -131,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_latido) {
-            //startActivity(new Intent(MainActivity.this, ActivityLatido.class));
+            startActivity(new Intent(MainActivity.this, Gravador.class));
         } else if (id == R.id.nav_cachorro) {
             startActivity(new Intent(this, ActivityCachorro.class));
         } else if (id == R.id.nav_sobre) {
@@ -141,11 +160,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
                             // user is now signed out
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            //startActivity(new Intent(MainActivity.this, LoginActivity.class));
                             finish();
                         }
                     });
-            startActivity(new Intent(this, LoginActivity.class));
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -158,10 +176,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = mFirebaseAuth.getCurrentUser();
         if (currentUser != null) {
-            email_view = findViewById(R.id.email_text_view);
-            //email_view.setText(currentUser.getEmail());
-            name_view = findViewById(R.id.name_text_view);
-            //name_view.setText(currentUser.getDisplayName());
+            //email_view = findViewById(R.id.email_text_view);
+            //email_view.setText(userEmail);
+            // name_view = findViewById(R.id.name_text_view);
+            //name_view.setText(userName);
         } else Toast.makeText(this, "Usúario não logado", Toast.LENGTH_LONG);
         // Check if user is signed in (non-null) and update UI accordingly.
 
@@ -192,9 +210,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     Toast.makeText(null, "SEM CONEXÃO COM A INTERNET", Toast.LENGTH_LONG);
-                    return;
+
                 }
             }
         }
+    }
+
+    /**
+     * Dispatch onPause() to fragments.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    public void onSignedInInitialize(String nome, String email) {
+        this.userName = nome;
+        this.userEmail = email;
+    }
+
+    public void onSignedOutCleanUp() {
+
     }
 }

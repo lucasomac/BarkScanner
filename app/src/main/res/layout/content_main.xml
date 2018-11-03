@@ -1,54 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        fab:fab_colorRipple="#99FFFFFF"
-        fab:fab_shadowColor="#66000000"
-        fab:fab_showShadow="true"
-        fab:menu_backgroundColor="#ccffffff"
-        fab:menu_fab_label="Choose an action"
-        fab:menu_labels_colorNormal="#333333"
-        fab:menu_labels_colorPressed="#444444"
-        fab:menu_labels_colorRipple="#66FFFFFF"
-        fab:menu_labels_ellipsize="end"
-        fab:menu_labels_maxLines="-1"
-        fab:menu_labels_position="left"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_singleLine="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_horizontal_margin"
-        fab:fab_colorNormal="#e74dd8"
-        fab:fab_colorPressed="#d704da"
-        fab:menu_openDirection="up">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabCachorro"
-            android:src="@android:drawable/ic_menu_edit"
-            fab:fab_label="@string/menu_item_cachorro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabLatido"
-            android:src="@android:drawable/ic_menu_add"
-            fab:fab_label="@string/menu_item_latido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_size="mini" />
-
-    </com.github.clans.fab.FloatingActionMenu>
 </androidx.constraintlayout.widget.ConstraintLayout>

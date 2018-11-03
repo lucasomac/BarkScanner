@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +32,6 @@ import br.com.lucolimac.barkscanner.cadastro.Gravador;
 import br.com.lucolimac.barkscanner.view.ActivityCachorro;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private com.github.clans.fab.FloatingActionButton fabCachorro, fabLatido;
     //Firebase Auth
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "EmailPassword";
@@ -43,13 +41,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new AuthUI.IdpConfig.GoogleBuilder().build(),
             new AuthUI.IdpConfig.FacebookBuilder().build());
     private FirebaseDatabase database;
-    private DatabaseReference myRef;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private DatabaseReference mDatabaseReference;
     private FirebaseUser currentUser;
     private String userName;
     private String userEmail;
+    private TextView email_view;
+    private TextView name_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,27 +57,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         database = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseReference = database.getReference().child("usuarios");
-        TextView email_view;
-        TextView name_view;
         email_view = findViewById(R.id.email_text_view);
         name_view = findViewById(R.id.name_text_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fabLatido = findViewById(R.id.fabLatido);
-        fabCachorro = findViewById(R.id.fabCachorro);
-        fabLatido.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, Gravador.class));
-            }
-        });
-        fabCachorro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ActivityCachorro.class));
-            }
-        });
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -107,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         };
-        email_view.setText(userEmail);
-        name_view.setText(userName);
     }
 
     @Override
@@ -160,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
                             // user is now signed out
-                            //startActivity(new Intent(MainActivity.this, LoginActivity.class));
                             finish();
                         }
                     });
@@ -176,14 +156,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = mFirebaseAuth.getCurrentUser();
         if (currentUser != null) {
-            //email_view = findViewById(R.id.email_text_view);
-            //email_view.setText(userEmail);
-            // name_view = findViewById(R.id.name_text_view);
-            //name_view.setText(userName);
         } else Toast.makeText(this, "Usúario não logado", Toast.LENGTH_LONG);
         // Check if user is signed in (non-null) and update UI accordingly.
-
-
     }
 
     @Override
@@ -197,10 +171,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 Log.d(TAG, "signIn:" + user.getEmail());
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-                // ...
+
             } else {
+                if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Conexão cancelada", Toast.LENGTH_SHORT).show();
+                }
                 // Sign in failed
                 if (response == null) {
                     // User pressed back button
@@ -237,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void onSignedOutCleanUp() {
+
 
     }
 }

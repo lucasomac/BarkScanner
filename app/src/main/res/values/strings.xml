@@ -28,5 +28,7 @@
     <!--Facebook-->
     <string name="facebook_application_id" translatable="false">1857006581064469</string>
     <string name="fb_login_protocol_scheme">fb1857006581064469</string>
-
+    <!--Email e Nome-->
+    <string name="username">Lucas de Oliveira Macedo</string>
+    <string name="email">lucasomac@outlook.com</string>
 </resources>

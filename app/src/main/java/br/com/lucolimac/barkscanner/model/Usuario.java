@@ -5,16 +5,14 @@ import java.util.Objects;
 public class Usuario {
     private String nome;
     private String email;
-    private String senha;
     private String uf;
     private String cidade;
     private String bairro;
     private String cpf;
 
-    public Usuario(String nome, String email, String senha, String uf, String cidade, String bairro, String cpf) {
+    public Usuario(String nome, String email, String uf, String cidade, String bairro, String cpf) {
         this.nome = nome;
         this.email = email;
-        this.senha = senha;
         this.uf = uf;
         this.cidade = cidade;
         this.bairro = bairro;
@@ -24,9 +22,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String email, String senha) {
+    public Usuario(String email) {
         this.email = email;
-        this.senha = senha;
     }
 
     public String getNome() {
@@ -43,14 +40,6 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getUf() {

@@ -1,10 +1,12 @@
 package br.com.lucolimac.barkscanner;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,11 +18,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,37 +28,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import br.com.lucolimac.barkscanner.cadastro.Gravador;
-import br.com.lucolimac.barkscanner.view.ActivityCachorro;
+import br.com.lucolimac.barkscanner.view.CachorroActivity;
+import br.com.lucolimac.barkscanner.view.LatidoActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Firebase Auth
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "EmailPassword";
     // Choose authentication providers
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
+    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(),
             new AuthUI.IdpConfig.GoogleBuilder().build(),
             new AuthUI.IdpConfig.FacebookBuilder().build());
-    private FirebaseDatabase database;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private DatabaseReference mDatabaseReference;
-    private FirebaseUser currentUser;
-    private String userName;
-    private String userEmail;
     private TextView email_view;
     private TextView name_view;
+    private ImageView foto_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        database = FirebaseDatabase.getInstance();
+        //------------------------------------------------
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mDatabaseReference = database.getReference().child("usuarios");
         email_view = findViewById(R.id.email_text_view);
         name_view = findViewById(R.id.name_text_view);
+        foto_view = findViewById(R.id.imageView);
+        //------------------------------------------------
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -77,12 +70,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                currentUser = mFirebaseAuth.getCurrentUser();
-                if (currentUser != null) {
-                    onSignedInInitialize(currentUser.getDisplayName(), currentUser.getEmail());
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    updateInterface(user);
                 } else {
-                    onSignedOutCleanUp();
-                    // Create and launch sign-in intent
                     startActivityForResult(AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setIsSmartLockEnabled(false)
@@ -92,7 +83,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .build(), RC_SIGN_IN);
                 }
             }
+
         };
+    }
+
+    public void updateInterface(FirebaseUser user) {
+        String nome = user.getDisplayName();
+        String email = user.getEmail();
+        Uri foto = user.getPhotoUrl();
+//        email_view.setText(email);
+//        name_view.setText(nome);
+//        foto_view.setImageURI(foto);
+    }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+    //mFirebaseAuth = FirebaseAuth.getInstance();
+    // FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            //updateInterface(currentUser);
+//        } else Toast.makeText(this, "Usúario não logado", Toast.LENGTH_LONG);
+    // Check if user is signed in (non-null) and update UI accordingly.
+//    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                Log.d(TAG, "signIn:" + user.getEmail());
+            } else {
+                if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Conexão cancelada", Toast.LENGTH_SHORT).show();
+                }
+                // Sign in failed
+                if (response == null) {
+                    // User pressed back button
+                    Toast.makeText(null, "Usuário e/ou senha inválidos", Toast.LENGTH_LONG);
+                    return;
+                }
+                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                    Toast.makeText(null, "SEM CONEXÃO COM A INTERNET", Toast.LENGTH_LONG);
+                }
+            }
+        }
     }
 
     @Override
@@ -134,9 +184,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_latido) {
-            startActivity(new Intent(MainActivity.this, Gravador.class));
+            startActivity(new Intent(this, LatidoActivity.class));
         } else if (id == R.id.nav_cachorro) {
-            startActivity(new Intent(this, ActivityCachorro.class));
+            startActivity(new Intent(this, CachorroActivity.class));
         } else if (id == R.id.nav_sobre) {
         } else if (id == R.id.nav_sair) {
             AuthUI.getInstance()
@@ -151,85 +201,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        currentUser = mFirebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            if (true) {
-                mDatabaseReference.orderByChild("nome").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                })
-                mDatabaseReference.getParent().child("usuarios/email").equalTo(currentUser.getEmail());
-            }
-        } else Toast.makeText(this, "Usúario não logado", Toast.LENGTH_LONG);
-        // Check if user is signed in (non-null) and update UI accordingly.
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Log.d(TAG, "signIn:" + user.getEmail());
-
-            } else {
-                if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "Conexão cancelada", Toast.LENGTH_SHORT).show();
-                }
-                // Sign in failed
-                if (response == null) {
-                    // User pressed back button
-                    Toast.makeText(null, "Usuário e/ou senha inválidos", Toast.LENGTH_LONG);
-                    return;
-                }
-
-                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    Toast.makeText(null, "SEM CONEXÃO COM A INTERNET", Toast.LENGTH_LONG);
-
-                }
-            }
-        }
-    }
-
-    /**
-     * Dispatch onPause() to fragments.
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-    }
-
-    public void onSignedInInitialize(String nome, String email) {
-        this.userName = nome;
-        this.userEmail = email;
-    }
-
-    public void onSignedOutCleanUp() {
-
-
     }
 }

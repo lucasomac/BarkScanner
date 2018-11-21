@@ -31,4 +31,28 @@
     <string name="email">Email %s</string>
     <string name="title_activity_cachorro">BarkScanner</string>
     <string name="title_activity_latido">LatidoActivity</string>
+
+    <!--Gravador-->
+    <string name="stop">STOP</string>
+    <string name="record">RECORD</string>
+    <string name="play">PLAY</string>
+    <string name="stop_play">STOP PLAYNING</string>
+    <string name="microfone">MIC</string>
+
+
+    <string-array name="situacaoes">
+        <item>comendo</item>
+        <item>brincando</item>
+        <item>perto de outro cachorro</item>
+        <item>doente</item>
+        <item>com fome</item>
+        <item>com sede</item>
+        <item>medo</item>
+        <item>sozinho</item>
+        <item>passeado</item>
+        <item>chamando atenção</item>
+        <item>feliz</item>
+        <item>triste</item>
+        <item>dormindo</item>
+    </string-array>
 </resources>

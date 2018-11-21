@@ -1,13 +1,13 @@
 package br.com.lucolimac.barkscanner.model;
 
-import android.provider.MediaStore;
+import android.media.MediaRecorder;
 
 public class Latido {
     private Cachorro cao;
-    private MediaStore.Audio sinal;
+    private MediaRecorder sinal;
     private String situacao;
 
-    public Latido(Cachorro cao, MediaStore.Audio sinal, String situacao) {
+    public Latido(Cachorro cao, MediaRecorder sinal, String situacao) {
         this.cao = cao;
         this.sinal = sinal;
         this.situacao = situacao;
@@ -20,7 +20,7 @@ public class Latido {
         return cao;
     }
 
-    public MediaStore.Audio getSinal() {
+    public MediaRecorder getSinal() {
         return sinal;
     }
 

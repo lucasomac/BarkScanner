@@ -11,7 +11,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import br.com.lucolimac.barkscanner.R;
+import br.com.lucolimac.barkscanner.cadastro.CadastroCachorro;
 
 public class CachorroActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,8 +35,7 @@ public class CachorroActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(CachorroActivity.this, CadastroCachorro.class));
             }
         });
 

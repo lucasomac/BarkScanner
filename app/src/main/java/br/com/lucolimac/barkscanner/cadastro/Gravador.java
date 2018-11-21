@@ -6,11 +6,17 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.IOException;
-import java.util.Random;
+import java.text.DateFormat;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,40 +28,60 @@ import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class Gravador extends AppCompatActivity {
-    Button buttonStart, buttonStop, buttonPlayLastRecordAudio, buttonStopPlayingRecording;
-    String AudioSavePathInDevice = null;
-    MediaRecorder mediaRecorder;
-    Random random;
-    String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
+    //Random random;
+    //String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
     public static final int RequestPermissionCode = 1;
+    private Button buttonRecord, buttonStop, buttonPlayLastRecordAudio, buttonStopPlayingRecording;
+    private Spinner spinnerSituacoes;
+    private ArrayAdapter<String> situacoesArrayAdapter;
+    private String[] situacoes;
+    private String path = null;
+    private MediaRecorder latido;
     MediaPlayer mediaPlayer;
+    // private Cachorro cao;
+    private FirebaseAuth auth;
+    private String userEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gravador);
 
-        buttonStart = findViewById(R.id.button);
-        buttonStop = findViewById(R.id.button2);
-        buttonPlayLastRecordAudio = findViewById(R.id.button3);
-        buttonStopPlayingRecording = findViewById(R.id.button4);
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        userEmail = currentUser.getEmail();
+        //cao = new Cachorro();
 
+
+//        Finds
+        buttonRecord = findViewById(R.id.button_record);
+        buttonStop = findViewById(R.id.button_stop);
+        buttonPlayLastRecordAudio = findViewById(R.id.button_play);
+        buttonStopPlayingRecording = findViewById(R.id.button_stopPlay);
+        spinnerSituacoes = findViewById(R.id.spinner_situacao);
         buttonStop.setEnabled(false);
         buttonPlayLastRecordAudio.setEnabled(false);
         buttonStopPlayingRecording.setEnabled(false);
+        situacoes = getResources().getStringArray(R.array.situacaoes);
+        situacoesArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, situacoes);
+        spinnerSituacoes.setAdapter(situacoesArrayAdapter);
+        // random = new Random();
 
-        random = new Random();
-
-        buttonStart.setOnClickListener(new View.OnClickListener() {
+        buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkPermission()) {
-                    AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                            "/" + CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                            "/Android/data/br.com.lucolimac.barkscanner/files/" + userEmail + "/" +
+                            spinnerSituacoes.getSelectedItem().toString() + "/" +
+                            DateFormat.getDateInstance().format(new Date()) + "-" +
+                            "Latido.aac";
+//                    CreateRandomAudioFileName(5) +
                     MediaRecorderReady();
                     try {
-                        mediaRecorder.prepare();
-                        mediaRecorder.start();
+                        latido.prepare();
+                        latido.start();
                     } catch (IllegalStateException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -63,7 +89,7 @@ public class Gravador extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    buttonStart.setEnabled(false);
+                    buttonRecord.setEnabled(false);
                     buttonStop.setEnabled(true);
                     Toast.makeText(Gravador.this, "Recording started", Toast.LENGTH_LONG).show();
                 } else {
@@ -75,10 +101,10 @@ public class Gravador extends AppCompatActivity {
         buttonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaRecorder.stop();
+                latido.stop();
                 buttonStop.setEnabled(false);
                 buttonPlayLastRecordAudio.setEnabled(true);
-                buttonStart.setEnabled(true);
+                buttonRecord.setEnabled(true);
                 buttonStopPlayingRecording.setEnabled(false);
                 Toast.makeText(Gravador.this, "Recording Completed", Toast.LENGTH_LONG).show();
             }
@@ -88,11 +114,11 @@ public class Gravador extends AppCompatActivity {
             @Override
             public void onClick(View view) throws IllegalArgumentException, SecurityException, IllegalStateException {
                 buttonStop.setEnabled(false);
-                buttonStart.setEnabled(false);
+                buttonRecord.setEnabled(false);
                 buttonStopPlayingRecording.setEnabled(true);
                 mediaPlayer = new MediaPlayer();
                 try {
-                    mediaPlayer.setDataSource(AudioSavePathInDevice);
+                    mediaPlayer.setDataSource(path);
                     mediaPlayer.prepare();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -106,7 +132,7 @@ public class Gravador extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 buttonStop.setEnabled(false);
-                buttonStart.setEnabled(true);
+                buttonRecord.setEnabled(true);
                 buttonStopPlayingRecording.setEnabled(false);
                 buttonPlayLastRecordAudio.setEnabled(true);
 
@@ -120,22 +146,22 @@ public class Gravador extends AppCompatActivity {
     }
 
     public void MediaRecorderReady() {
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        mediaRecorder.setOutputFile(AudioSavePathInDevice);
+        latido = new MediaRecorder();
+        latido.setAudioSource(MediaRecorder.AudioSource.MIC);
+        latido.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        latido.setAudioEncoder(MediaRecorder.OutputFormat.AAC_ADTS);
+        latido.setOutputFile(path);
     }
 
-    public String CreateRandomAudioFileName(int string) {
-        StringBuilder stringBuilder = new StringBuilder(string);
-        int i = 0;
-        while (i < string) {
-            stringBuilder.append(RandomAudioFileName.charAt(random.nextInt(RandomAudioFileName.length())));
-            i++;
-        }
-        return stringBuilder.toString();
-    }
+//    public String CreateRandomAudioFileName(int string) {
+//        StringBuilder stringBuilder = new StringBuilder(string);
+//        int i = 0;
+//        while (i < string) {
+//            stringBuilder.append(RandomAudioFileName.charAt(random.nextInt(RandomAudioFileName.length())));
+//            i++;
+//        }
+//        return stringBuilder.toString();
+//    }
 
     private void requestPermission() {
 

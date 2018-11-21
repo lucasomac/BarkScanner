@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFirebaseAuth = FirebaseAuth.getInstance();
         email_view = findViewById(R.id.email_text_view);
         name_view = findViewById(R.id.name_text_view);
-        foto_view = findViewById(R.id.imageView);
+        foto_view = findViewById(R.id.image_mic);
         //------------------------------------------------
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

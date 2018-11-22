@@ -59,12 +59,12 @@
         </activity>
         <activity
             android:name=".view.CachorroActivity"
-            android:label="@string/title_activity_cachorro"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.LatidoActivity"
-            android:label="@string/title_activity_latido"
-            android:theme="@style/AppTheme"></activity>
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

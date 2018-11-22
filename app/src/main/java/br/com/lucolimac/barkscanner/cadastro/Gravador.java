@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
@@ -41,6 +42,7 @@ public class Gravador extends AppCompatActivity {
     // private Cachorro cao;
     private FirebaseAuth auth;
     private String userEmail;
+    private File pasta;
 
 
     @Override
@@ -68,16 +70,21 @@ public class Gravador extends AppCompatActivity {
         spinnerSituacoes.setAdapter(situacoesArrayAdapter);
         // random = new Random();
 
+
         buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (checkPermission()) {
-                    path = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                            "/Android/data/br.com.lucolimac.barkscanner/files/" + userEmail + "/" +
-                            spinnerSituacoes.getSelectedItem().toString() + "/" +
+                    pasta = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                            + "/Android/data/br.com.lucolimac.barkscanner/files/".concat(userEmail).concat("/"));
+                    if (!pasta.exists()) {
+                        pasta.mkdir();
+                    }
+                    path = pasta.getAbsolutePath() + spinnerSituacoes.getSelectedItem().toString() + "-" +
                             DateFormat.getDateInstance().format(new Date()) + "-" +
                             "Latido.aac";
-//                    CreateRandomAudioFileName(5) +
+                    System.out.println(path);
                     MediaRecorderReady();
                     try {
                         latido.prepare();
@@ -149,7 +156,7 @@ public class Gravador extends AppCompatActivity {
         latido = new MediaRecorder();
         latido.setAudioSource(MediaRecorder.AudioSource.MIC);
         latido.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
-        latido.setAudioEncoder(MediaRecorder.OutputFormat.AAC_ADTS);
+        latido.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         latido.setOutputFile(path);
     }
 

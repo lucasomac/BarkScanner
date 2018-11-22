@@ -27,10 +27,10 @@
     <string name="facebook_application_id" translatable="false">1857006581064469</string>
     <string name="fb_login_protocol_scheme">fb1857006581064469</string>
     <!--Email e Nome-->
-    <string name="nome">Nome %s</string>
-    <string name="email">Email %s</string>
-    <string name="title_activity_cachorro">BarkScanner</string>
-    <string name="title_activity_latido">LatidoActivity</string>
+    <string name="nome">Nome</string>
+    <string name="email">Email</string>
+    <!--<string name="title_activity_cachorro">BarkScanner</string>-->
+    <!--<string name="title_activity_latido">LatidoActivity</string>-->
 
     <!--Gravador-->
     <string name="stop">STOP</string>
@@ -41,18 +41,18 @@
 
 
     <string-array name="situacaoes">
-        <item>comendo</item>
-        <item>brincando</item>
-        <item>perto de outro cachorro</item>
-        <item>doente</item>
-        <item>com fome</item>
-        <item>com sede</item>
-        <item>medo</item>
-        <item>sozinho</item>
-        <item>passeado</item>
-        <item>chamando atenção</item>
-        <item>feliz</item>
-        <item>triste</item>
-        <item>dormindo</item>
+        <item>COMENDO</item>
+        <item>BRINCANDO</item>
+        <item>PERTO DE OUTRO CACHORRO</item>
+        <item>DOENTE</item>
+        <item>FOME</item>
+        <item>SEDE</item>
+        <item>MEDO</item>
+        <item>SOZINHO</item>
+        <item>PASSEANDO</item>
+        <item>CHAMANDO ATENÇÃO</item>
+        <item>FELIZ</item>
+        <item>TRISTE</item>
+        <item>DORMINDO</item>
     </string-array>
 </resources>

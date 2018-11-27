@@ -1,7 +1,6 @@
 package br.com.lucolimac.barkscanner;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -72,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    updateInterface(user);
+
+//                    updateInterface(user);
                 } else {
                     startActivityForResult(AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -87,24 +87,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
     }
 
-    public void updateInterface(FirebaseUser user) {
-        String nome = user.getDisplayName();
-        String email = user.getEmail();
-        Uri foto = user.getPhotoUrl();
+//    public void updateInterface(FirebaseUser user) {
+//        String nome = user.getDisplayName();
+//        String email = user.getEmail();
+//        Uri foto = user.getPhotoUrl();
 //        email_view.setText(email);
 //        name_view.setText(nome);
 //        foto_view.setImageURI(foto);
-    }
-
+//    }
+//
 //    @Override
 //    public void onStart() {
 //        super.onStart();
-    //mFirebaseAuth = FirebaseAuth.getInstance();
-    // FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            //updateInterface(currentUser);
-//        } else Toast.makeText(this, "Usúario não logado", Toast.LENGTH_LONG);
-    // Check if user is signed in (non-null) and update UI accordingly.
+//        mFirebaseAuth = FirebaseAuth.getInstance();
+//        //FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+//        updateInterface(mFirebaseAuth.getCurrentUser());
 //    }
 
     @Override

@@ -1,6 +1,7 @@
 package br.com.lucolimac.barkscanner.cadastro;
 
 import android.content.pm.PackageManager;
+import android.icu.text.SimpleDateFormat;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
@@ -53,9 +53,6 @@ public class Gravador extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         userEmail = currentUser.getEmail();
-        //cao = new Cachorro();
-
-
 //        Finds
         buttonRecord = findViewById(R.id.button_record);
         buttonStop = findViewById(R.id.button_stop);
@@ -68,23 +65,25 @@ public class Gravador extends AppCompatActivity {
         situacoes = getResources().getStringArray(R.array.situacaoes);
         situacoesArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, situacoes);
         spinnerSituacoes.setAdapter(situacoesArrayAdapter);
-        // random = new Random();
-
 
         buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy:HH-mm");
                 if (checkPermission()) {
-                    pasta = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                            + "/Android/data/br.com.lucolimac.barkscanner/files/".concat(userEmail).concat("/"));
+                    File pasta = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                            + "/Android/data/br.com.lucolimac.barkscanner/files/"
+                            + userEmail);
                     if (!pasta.exists()) {
                         pasta.mkdir();
                     }
-                    path = pasta.getAbsolutePath() + spinnerSituacoes.getSelectedItem().toString() + "-" +
-                            DateFormat.getDateInstance().format(new Date()) + "-" +
-                            "Latido.aac";
-                    System.out.println(path);
+                    path = pasta.getAbsolutePath() + (spinnerSituacoes.getSelectedItem().toString() + "-" +
+                            dateFormat.format(new Date()) + "-" + "Latido.aac");
+
+//                    path = pasta.getAbsolutePath() + spinnerSituacoes.getSelectedItem().toString() + "-" +
+//                            DateFormat.getDateInstance().format(new Date()) + "-" +
+//                            "Latido.aac";
+
                     MediaRecorderReady();
                     try {
                         latido.prepare();
@@ -159,16 +158,6 @@ public class Gravador extends AppCompatActivity {
         latido.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         latido.setOutputFile(path);
     }
-
-//    public String CreateRandomAudioFileName(int string) {
-//        StringBuilder stringBuilder = new StringBuilder(string);
-//        int i = 0;
-//        while (i < string) {
-//            stringBuilder.append(RandomAudioFileName.charAt(random.nextInt(RandomAudioFileName.length())));
-//            i++;
-//        }
-//        return stringBuilder.toString();
-//    }
 
     private void requestPermission() {
 

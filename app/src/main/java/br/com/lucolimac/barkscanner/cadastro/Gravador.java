@@ -21,6 +21,7 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import br.com.lucolimac.barkscanner.R;
@@ -32,6 +33,7 @@ public class Gravador extends AppCompatActivity {
     //Random random;
     //String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
     public static final int RequestPermissionCode = 1;
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy:HH.mm");
     private Button buttonRecord, buttonStop, buttonPlayLastRecordAudio, buttonStopPlayingRecording;
     private Spinner spinnerSituacoes;
     private ArrayAdapter<String> situacoesArrayAdapter;
@@ -49,7 +51,8 @@ public class Gravador extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gravador);
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         userEmail = currentUser.getEmail();
@@ -69,21 +72,15 @@ public class Gravador extends AppCompatActivity {
         buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy:HH-mm");
+
                 if (checkPermission()) {
                     File pasta = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                            + "/Android/data/br.com.lucolimac.barkscanner/files/"
-                            + userEmail);
+                            + "/Android/data/br.com.lucolimac.barkscanner/files/".concat(userEmail));
                     if (!pasta.exists()) {
                         pasta.mkdir();
                     }
-                    path = pasta.getAbsolutePath() + (spinnerSituacoes.getSelectedItem().toString() + "-" +
-                            dateFormat.format(new Date()) + "-" + "Latido.aac");
-
-//                    path = pasta.getAbsolutePath() + spinnerSituacoes.getSelectedItem().toString() + "-" +
-//                            DateFormat.getDateInstance().format(new Date()) + "-" +
-//                            "Latido.aac";
-
+                    path = pasta.getAbsolutePath().concat("/") + spinnerSituacoes.getSelectedItem().toString() + "-" +
+                            dateFormat.format(new Date()) + "-" + "Latido.aac";
                     MediaRecorderReady();
                     try {
                         latido.prepare();

@@ -2,13 +2,15 @@ package br.com.lucolimac.barkscanner.model;
 
 import android.media.Image;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Objects;
 
 public class Cachorro {
     private String nome;
     private String raca;
     private int idade;
-    private Usuario dono;
+    private FirebaseUser dono;
     private Porte porte;
     private String veterinario;
     private String crmv;
@@ -17,7 +19,7 @@ public class Cachorro {
     public Cachorro() {
     }
 
-    public Cachorro(String nome, String raca, int idade, Usuario dono, Porte porte) {
+    public Cachorro(String nome, String raca, int idade, FirebaseUser dono, Porte porte) {
 
         this.nome = nome;
         this.raca = raca;
@@ -26,7 +28,7 @@ public class Cachorro {
         this.porte = porte;
     }
 
-    public Cachorro(String nome, String raca, int idade, Usuario dono, Porte porte, Image foto) {
+    public Cachorro(String nome, String raca, int idade, FirebaseUser dono, Porte porte, Image foto) {
 
         this.nome = nome;
         this.raca = raca;
@@ -36,7 +38,7 @@ public class Cachorro {
         this.foto = foto;
     }
 
-    public Cachorro(String nome, String raca, int idade, Usuario dono, Porte porte, String veterinario, String crmv) {
+    public Cachorro(String nome, String raca, int idade, FirebaseUser dono, Porte porte, String veterinario, String crmv) {
         this.nome = nome;
         this.raca = raca;
         this.idade = idade;
@@ -46,7 +48,7 @@ public class Cachorro {
         this.crmv = crmv;
     }
 
-    public Cachorro(String nome, String raca, int idade, Usuario dono, Porte porte, String veterinario, String crmv, Image foto) {
+    public Cachorro(String nome, String raca, int idade, FirebaseUser dono, Porte porte, String veterinario, String crmv, Image foto) {
         this.nome = nome;
         this.raca = raca;
         this.idade = idade;
@@ -57,7 +59,7 @@ public class Cachorro {
         this.foto = foto;
     }
 
-    public Usuario getDono() {
+    public FirebaseUser getDono() {
         return dono;
     }
 

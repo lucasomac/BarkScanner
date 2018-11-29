@@ -29,8 +29,6 @@
     <!--Email e Nome-->
     <string name="nome">%s</string>
     <string name="email">%s</string>
-    <!--<string name="title_activity_cachorro">BarkScanner</string>-->
-    <!--<string name="title_activity_latido">LatidoActivity</string>-->
 
     <!--Gravador-->
     <string name="stop">STOP</string>
@@ -55,4 +53,23 @@
         <item>TRISTE</item>
         <item>DORMINDO</item>
     </string-array>
+    <string-array name="porte">
+        <item>GRANDE</item>
+        <item>MÉDIO</item>
+        <item>PEQUENO</item>
+    </string-array>
+
+    <string-array name="raca">
+        <item>GRANDE</item>
+        <item>MÉDIO</item>
+        <item>PEQUENO</item>
+    </string-array>
+    <!--Strings referentes ao cadastro de cachorro-->
+    <string name="dog_name_edit">Nome do Cachorro</string>
+    <string name="dog_age_edit">Idade do Cachorro(meses)</string>
+    <string name="nome_veterinario">Nome do Veterinario</string>
+    <string name="crmv_veterinario">CRMV do veterinario</string>
+    <string name="gravar">CADASTRAR</string>
+
+
 </resources>

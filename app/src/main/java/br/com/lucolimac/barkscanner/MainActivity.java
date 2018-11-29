@@ -31,18 +31,19 @@ import br.com.lucolimac.barkscanner.view.CachorroActivity;
 import br.com.lucolimac.barkscanner.view.LatidoActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    //Firebase Auth
+    //Firebase Auth  Constantes
     private static final int RC_SIGN_IN = 123;
-    private static final String TAG = "EmailPassword";
-    // Choose authentication providers
-    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(),
-            new AuthUI.IdpConfig.GoogleBuilder().build());
-    // new AuthUI.IdpConfig.FacebookBuilder().build());
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private static final String TAG_AUTH = "AUTH";
+    //Providers
+    private static final List<AuthUI.IdpConfig> PROVIDERS = Arrays.asList(
+            new AuthUI.IdpConfig.EmailBuilder().build(),
+            new AuthUI.IdpConfig.GoogleBuilder().build(),
+            new AuthUI.IdpConfig.FacebookBuilder().build());
     private TextView email_view;
     private TextView name_view;
     private ImageView foto_view;
+    // Variaveis
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         email_view = findViewById(R.id.email_text_view);
         name_view = findViewById(R.id.name_text_view);
         foto_view = findViewById(R.id.image_mic);
-        //------------------------------------------------
+        //[START Toolbar]
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -65,56 +66,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //[END Toolbar]
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
+        //[START Authentication]
+        if (mFirebaseAuth.getCurrentUser() != null) {
+            Log.d(TAG_AUTH, "O Úsurairo " + mFirebaseAuth.getCurrentUser().getDisplayName() + " está logado!");
+            //updateInterface(mFirebaseAuth.getCurrentUser());
+        } else {
+            startActivityForResult(AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(PROVIDERS)
+                    .setLogo(R.drawable.logo_dog_paw)      // Set logo drawable
+                    .setIsSmartLockEnabled(false)
+                    .setTheme(R.style.AppTheme)
+                    .build(), RC_SIGN_IN);
 
-//                    updateInterface(user);
-                } else {
-                    startActivityForResult(AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setIsSmartLockEnabled(false)
-                            .setAvailableProviders(providers)
-                            .setLogo(R.drawable.logo_dog_paw)      // Set logo drawable
-                            .setTheme(R.style.AppTheme)
-                            .build(), RC_SIGN_IN);
-                }
-            }
-
-        };
+        }
+        //[END Authentication]
     }
 
-//    public void updateInterface(FirebaseUser user) {
-//        String nome = user.getDisplayName();
-//        String email = user.getEmail();
-//        Uri foto = user.getPhotoUrl();
-//        email_view.setText(email);
-//        name_view.setText(nome);
-//        foto_view.setImageURI(foto);
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        mFirebaseAuth = FirebaseAuth.getInstance();
-//        //FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-//        updateInterface(mFirebaseAuth.getCurrentUser());
-//    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -123,19 +93,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Log.d(TAG, "signIn:" + user.getEmail());
+                updateInterface(mFirebaseAuth.getCurrentUser());
+                Log.d(TAG_AUTH, "signIn:" + mFirebaseAuth.getCurrentUser().getEmail());
             } else {
                 if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "Conexão cancelada", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG_AUTH, "signIn:" + "Conexão cancelada");
+                    // Toast.makeText(this, "Conexão cancelada", Toast.LENGTH_SHORT).show();
                 }
                 // Sign in failed
                 if (response == null) {
                     // User pressed back button
+                    Log.d(TAG_AUTH, "signIn:" + "Usuário e/ou senha inválidos");
                     Toast.makeText(null, "Usuário e/ou senha inválidos", Toast.LENGTH_LONG);
                     return;
                 }
                 if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                    Log.d(TAG_AUTH, "signIn:" + "SEM CONEXÃO COM A INTERNET");
                     Toast.makeText(null, "SEM CONEXÃO COM A INTERNET", Toast.LENGTH_LONG);
                 }
             }
@@ -191,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
                             // user is now signed out
+                            Log.d(TAG_AUTH, "Úsuaurio saiu do sistema!");
                             finish();
                         }
                     });
@@ -198,5 +172,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void updateInterface(FirebaseUser user) {
+        //Uri foto = user.getPhotoUrl();
+        email_view.setText(getString(R.string.email, user.getEmail()));
+        name_view.setText(getString(R.string.nome, user.getDisplayName()));
+        //foto_view.setImageURI(foto);
     }
 }

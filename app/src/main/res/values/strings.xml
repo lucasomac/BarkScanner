@@ -15,7 +15,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Senha</string>
+    <!--<string name="prompt_password">Senha</string>-->
     <string name="prompt_name">Nome</string>
     <string name="prompt_bairro">Bairro</string>
     <string name="prompt_cpf">CPF</string>
@@ -27,8 +27,8 @@
     <string name="facebook_application_id" translatable="false">1857006581064469</string>
     <string name="fb_login_protocol_scheme">fb1857006581064469</string>
     <!--Email e Nome-->
-    <string name="nome">Nome</string>
-    <string name="email">Email</string>
+    <string name="nome">%s</string>
+    <string name="email">%s</string>
     <!--<string name="title_activity_cachorro">BarkScanner</string>-->
     <!--<string name="title_activity_latido">LatidoActivity</string>-->
 

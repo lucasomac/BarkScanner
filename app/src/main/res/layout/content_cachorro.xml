@@ -8,4 +8,9 @@
     tools:context=".view.CachorroActivity"
     tools:showIn="@layout/app_bar_cachorro">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_cachorro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/lista_cachorro" />
 </androidx.constraintlayout.widget.ConstraintLayout>

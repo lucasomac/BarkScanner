@@ -27,8 +27,8 @@
     <string name="facebook_application_id" translatable="false">1857006581064469</string>
     <string name="fb_login_protocol_scheme">fb1857006581064469</string>
     <!--Email e Nome-->
-    <string name="nome">%s</string>
-    <string name="email">%s</string>
+    <string name="nome">%1$s</string>
+    <string name="email">%1$s</string>
 
     <!--Gravador-->
     <string name="stop">STOP</string>
@@ -70,6 +70,8 @@
     <string name="nome_veterinario">Nome do Veterinario</string>
     <string name="crmv_veterinario">CRMV do veterinario</string>
     <string name="gravar">CADASTRAR</string>
+
+    <string name="bem_vindo">Olá %1$s seja bem-vindo de volta!!</string>
 
 
 </resources>

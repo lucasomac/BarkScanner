@@ -2,6 +2,7 @@ package br.com.lucolimac.barkscanner.cadastro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,8 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import br.com.lucolimac.barkscanner.MainActivity;
 import br.com.lucolimac.barkscanner.R;
 import br.com.lucolimac.barkscanner.model.Cachorro;
+import br.com.lucolimac.barkscanner.view.CachorroActivity;
 
 public class CadastroCachorro extends AppCompatActivity {
+    private final String DOG = "Cachorro";
     private FirebaseUser currentUser;
     private Spinner spinnerRaca;
     private ArrayAdapter<String> racasArrayAdapter;
@@ -42,17 +45,26 @@ public class CadastroCachorro extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro_cachorro);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         constroiSpinners();
-        nome_dog = findViewById(R.id.dog_name);
+        nome_dog = findViewById(R.id.dog_name_card);
         idade_dog = findViewById(R.id.dog_age);
         nome_veter = findViewById(R.id.nome_veterinario);
         crmv_veter = findViewById(R.id.crmv_veterinario);
         cadastrar = findViewById(R.id.grava_dog);
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference().child("cachorro");
+        databaseReference = database.getReference().child("cachorros");
         cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dog = new Cachorro(nome_dog.get)
+                dog = new Cachorro(nome_dog.getText().toString(), spinnerRaca.getSelectedItem().toString()
+                        , Integer.parseInt(idade_dog.getText().toString()), currentUser.getUid()
+                        , spinnerPorte.getSelectedItem().toString(), nome_veter.getText().toString()
+                        , crmv_veter.getText().toString());
+                databaseReference.push().setValue(dog);
+//                Toast.makeText(null, "Cachorro cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+                Log.d(DOG, dog.getNome() + " adicionado com sucesso!");
+                startActivity(new Intent(CadastroCachorro.this, CachorroActivity.class));
+
+
             }
         });
     }
@@ -83,5 +95,9 @@ public class CadastroCachorro extends AppCompatActivity {
         spinnerPorte.setSelection(2);
         spinnerRaca.setSelection(2);
 //        [END Spiners]
+    }
+
+    public void validaCampos() {
+
     }
 }

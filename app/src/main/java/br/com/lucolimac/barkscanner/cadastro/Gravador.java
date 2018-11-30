@@ -158,7 +158,8 @@ public class Gravador extends AppCompatActivity {
 
     private void requestPermission() {
 
-        ActivityCompat.requestPermissions(Gravador.this, new String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, RequestPermissionCode);
+        ActivityCompat.requestPermissions(Gravador.this,
+                new String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, RequestPermissionCode);
 
     }
 

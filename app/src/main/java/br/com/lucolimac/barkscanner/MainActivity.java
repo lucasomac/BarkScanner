@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +15,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new AuthUI.IdpConfig.FacebookBuilder().build());
     private TextView email_view;
     private TextView name_view;
-    private ImageView foto_view;
+    private TextView bem_vindo;
+    // private ImageView foto_view;
     // Variaveis
     private FirebaseAuth mFirebaseAuth;
 
@@ -49,11 +48,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bem_vindo = findViewById(R.id.bem_vindo);
         //------------------------------------------------
         mFirebaseAuth = FirebaseAuth.getInstance();
         email_view = findViewById(R.id.email_text_view);
         name_view = findViewById(R.id.name_text_view);
-        foto_view = findViewById(R.id.image_mic);
+        //foto_view = findViewById(R.id.image_mic);
         //[START Toolbar]
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //[START Authentication]
         if (mFirebaseAuth.getCurrentUser() != null) {
             Log.d(TAG_AUTH, "O Úsurairo " + mFirebaseAuth.getCurrentUser().getDisplayName() + " está logado!");
-            //updateInterface(mFirebaseAuth.getCurrentUser());
+//            updateInterface(mFirebaseAuth.getCurrentUser());
         } else {
             startActivityForResult(AuthUI.getInstance()
                     .createSignInIntentBuilder()
@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                updateInterface(mFirebaseAuth.getCurrentUser());
+//                updateInterface(mFirebaseAuth.getCurrentUser());
+                bem_vindo.setText(mFirebaseAuth.getCurrentUser().getDisplayName());
                 Log.d(TAG_AUTH, "signIn:" + mFirebaseAuth.getCurrentUser().getEmail());
             } else {
                 if (resultCode == RESULT_CANCELED) {
@@ -174,10 +175,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void updateInterface(FirebaseUser user) {
-        //Uri foto = user.getPhotoUrl();
-        email_view.setText(getString(R.string.email, user.getEmail()));
-        name_view.setText(getString(R.string.nome, user.getDisplayName()));
-        //foto_view.setImageURI(foto);
-    }
+//    public void updateInterface(FirebaseUser user) {
+//        Resources res = getResources();
+////        String nome = String.format(res.getString(R.string.welcome_messages), username, mailCount);
+////        String email = String.format(res.getString(R.string.welcome_messages), username, mailCount);
+//        //Log.d("TESTE", user.getDisplayName() + "-----" + user.getEmail());
+//        //Uri foto = user.getPhotoUrl();
+//        email_view.setText(getString((R.string.nome), user.getDisplayName()));
+//        name_view.setText(getString((R.string.email), user.getEmail()));
+//        //foto_view.setImageURI(foto);
+//    }
 }

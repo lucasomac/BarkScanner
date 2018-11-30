@@ -2,16 +2,14 @@ package br.com.lucolimac.barkscanner.model;
 
 import android.media.Image;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.Objects;
 
 public class Cachorro {
     private String nome;
     private String raca;
     private int idade;
-    private FirebaseUser dono;
-    private Porte porte;
+    private String dono;
+    private String porte;
     private String veterinario;
     private String crmv;
     private Image foto;
@@ -19,7 +17,7 @@ public class Cachorro {
     public Cachorro() {
     }
 
-    public Cachorro(String nome, String raca, int idade, FirebaseUser dono, Porte porte) {
+    public Cachorro(String nome, String raca, int idade, String dono, String porte) {
 
         this.nome = nome;
         this.raca = raca;
@@ -28,7 +26,7 @@ public class Cachorro {
         this.porte = porte;
     }
 
-    public Cachorro(String nome, String raca, int idade, FirebaseUser dono, Porte porte, Image foto) {
+    public Cachorro(String nome, String raca, int idade, String dono, String porte, Image foto) {
 
         this.nome = nome;
         this.raca = raca;
@@ -38,7 +36,7 @@ public class Cachorro {
         this.foto = foto;
     }
 
-    public Cachorro(String nome, String raca, int idade, FirebaseUser dono, Porte porte, String veterinario, String crmv) {
+    public Cachorro(String nome, String raca, int idade, String dono, String porte, String veterinario, String crmv) {
         this.nome = nome;
         this.raca = raca;
         this.idade = idade;
@@ -48,7 +46,7 @@ public class Cachorro {
         this.crmv = crmv;
     }
 
-    public Cachorro(String nome, String raca, int idade, FirebaseUser dono, Porte porte, String veterinario, String crmv, Image foto) {
+    public Cachorro(String nome, String raca, int idade, String dono, String porte, String veterinario, String crmv, Image foto) {
         this.nome = nome;
         this.raca = raca;
         this.idade = idade;
@@ -59,11 +57,11 @@ public class Cachorro {
         this.foto = foto;
     }
 
-    public FirebaseUser getDono() {
+    public String getDono() {
         return dono;
     }
 
-    public Porte getPorte() {
+    public String getPorte() {
         return porte;
     }
 

@@ -6,33 +6,25 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_latido"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/baseline_mic_black_24dp"
             android:title="@string/menu_item_latido_nav" />
         <item
             android:id="@+id/nav_cachorro"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/logo_dog_paw"
             android:title="@string/menu_item_cachorro_nav" />
         <item
-            android:id="@+id/nav_sobre"
+            android:id="@+id/nav_share"
             android:icon="@drawable/ic_menu_share"
+            android:onClick="shareApp"
+            android:title="@string/share_button" />
+        <item
+            android:id="@+id/nav_sobre"
+            android:icon="@drawable/ic_menu_send"
             android:title="@string/sobre_button" />
         <item
             android:id="@+id/nav_sair"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_menu_manage"
             android:title="@string/sair_button" />
     </group>
-
-    <!--<item android:title="About">-->
-    <!--<menu>-->
-    <!--<item-->
-    <!--android:id="@+id/nav_sobre"-->
-    <!--android:icon="@drawable/ic_menu_share"-->
-    <!--android:title="@string/sobre_button" />-->
-    <!--<item-->
-    <!--android:id="@+id/nav_sair"-->
-    <!--android:icon="@drawable/ic_menu_send"-->
-    <!--android:title="@string/sair_button" />-->
-    <!--</menu>-->
-    <!--</item>-->
 
 </menu>

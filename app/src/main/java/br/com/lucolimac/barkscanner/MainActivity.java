@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +23,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import br.com.lucolimac.barkscanner.view.CachorroActivity;
 import br.com.lucolimac.barkscanner.view.LatidoActivity;
+import br.com.lucolimac.barkscanner.view.Sobre;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Firebase Auth  Constantes
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // private ImageView foto_view;
     // Variaveis
     private FirebaseAuth mFirebaseAuth;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +109,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (response == null) {
                     // User pressed back button
                     Log.d(TAG_AUTH, "signIn:" + "Usuário e/ou senha inválidos");
-                    Toast.makeText(null, "Usuário e/ou senha inválidos", Toast.LENGTH_LONG);
+                    Toast.makeText(null, "Usuário e/ou senha inválidos", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     Log.d(TAG_AUTH, "signIn:" + "SEM CONEXÃO COM A INTERNET");
-                    Toast.makeText(null, "SEM CONEXÃO COM A INTERNET", Toast.LENGTH_LONG);
+                    Toast.makeText(null, "SEM CONEXÃO COM A INTERNET", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -158,7 +162,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, LatidoActivity.class));
         } else if (id == R.id.nav_cachorro) {
             startActivity(new Intent(this, CachorroActivity.class));
+        } else if (id == R.id.nav_share) {
         } else if (id == R.id.nav_sobre) {
+            startActivity(new Intent(this, Sobre.class));
         } else if (id == R.id.nav_sair) {
             AuthUI.getInstance()
                     .signOut(this)
@@ -175,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-//    public void updateInterface(FirebaseUser user) {
+    //    public void updateInterface(FirebaseUser user) {
 //        Resources res = getResources();
 ////        String nome = String.format(res.getString(R.string.welcome_messages), username, mailCount);
 ////        String email = String.format(res.getString(R.string.welcome_messages), username, mailCount);
@@ -185,4 +191,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        name_view.setText(getString((R.string.email), user.getEmail()));
 //        //foto_view.setImageURI(foto);
 //    }
+    public void shareApp(View view) {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        //share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+        share.putExtra(Intent.EXTRA_SUBJECT, "BarkScanner - Grave o latido do seu cachorro!");
+        share.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
+
+        startActivity(Intent.createChooser(share, "BarkScanner"));
+    }
 }

@@ -9,11 +9,14 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,27 +28,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import br.com.lucolimac.barkscanner.R;
+import br.com.lucolimac.barkscanner.model.Cachorro;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class Gravador extends AppCompatActivity {
-    //Random random;
-    //String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
     public static final int RequestPermissionCode = 1;
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy:HH.mm");
-    private Button buttonRecord, buttonStop, buttonPlayLastRecordAudio, buttonStopPlayingRecording;
+    private Button buttonStop, buttonPlayLastRecordAudio, buttonStopPlayingRecording;
+    private ImageButton buttonRecord;
     private Spinner spinnerSituacoes;
     private ArrayAdapter<String> situacoesArrayAdapter;
     private String[] situacoes;
     private String path = null;
     private MediaRecorder latido;
     MediaPlayer mediaPlayer;
-    // private Cachorro cao;
+    private Cachorro cao;
     private FirebaseAuth auth;
     private String userEmail;
     private File pasta;
-
+    private FirebaseStorage mFirebaseStrorage;
+    private StorageReference mChatPhotosStorageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +78,13 @@ public class Gravador extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (checkPermission()) {
-                    File pasta = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                    pasta = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                             + "/Android/data/br.com.lucolimac.barkscanner/files/".concat(userEmail));
                     if (!pasta.exists()) {
                         pasta.mkdir();
                     }
                     path = pasta.getAbsolutePath().concat("/") + spinnerSituacoes.getSelectedItem().toString() + "-" +
-                            dateFormat.format(new Date()) + "-" + "Latido.aac";
+                            dateFormat.format(new Date()) + "-" + "Latido.3gp";
                     MediaRecorderReady();
                     try {
                         latido.prepare();
@@ -151,7 +155,7 @@ public class Gravador extends AppCompatActivity {
     public void MediaRecorderReady() {
         latido = new MediaRecorder();
         latido.setAudioSource(MediaRecorder.AudioSource.MIC);
-        latido.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        latido.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         latido.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         latido.setOutputFile(path);
     }

@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new AuthUI.IdpConfig.EmailBuilder().build(),
             new AuthUI.IdpConfig.GoogleBuilder().build(),
             new AuthUI.IdpConfig.FacebookBuilder().build());
-    private TextView email_view;
-    private TextView name_view;
     private TextView bem_vindo;
     // private ImageView foto_view;
     // Variaveis
@@ -55,9 +53,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bem_vindo = findViewById(R.id.bem_vindo);
         //------------------------------------------------
         mFirebaseAuth = FirebaseAuth.getInstance();
-        email_view = findViewById(R.id.email_text_view);
-        name_view = findViewById(R.id.name_text_view);
-        //foto_view = findViewById(R.id.image_mic);
         //[START Toolbar]
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -163,6 +158,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_cachorro) {
             startActivity(new Intent(this, CachorroActivity.class));
         } else if (id == R.id.nav_share) {
+            Intent share = new Intent();
+            share.setAction(Intent.ACTION_SEND);
+            share.putExtra(Intent.EXTRA_SUBJECT, "BarkScanner - Grave o latido do seu cachorro!");
+            share.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
+            share.setType("text/plain");
+            startActivity(share);
         } else if (id == R.id.nav_sobre) {
             startActivity(new Intent(this, Sobre.class));
         } else if (id == R.id.nav_sair) {
@@ -181,24 +182,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    //    public void updateInterface(FirebaseUser user) {
-//        Resources res = getResources();
-////        String nome = String.format(res.getString(R.string.welcome_messages), username, mailCount);
-////        String email = String.format(res.getString(R.string.welcome_messages), username, mailCount);
-//        //Log.d("TESTE", user.getDisplayName() + "-----" + user.getEmail());
-//        //Uri foto = user.getPhotoUrl();
-//        email_view.setText(getString((R.string.nome), user.getDisplayName()));
-//        name_view.setText(getString((R.string.email), user.getEmail()));
-//        //foto_view.setImageURI(foto);
-//    }
     public void shareApp(View view) {
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
         //share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-
         share.putExtra(Intent.EXTRA_SUBJECT, "BarkScanner - Grave o latido do seu cachorro!");
         share.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
-
         startActivity(Intent.createChooser(share, "BarkScanner"));
     }
 }

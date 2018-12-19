@@ -60,11 +60,6 @@
         <item>PEQUENO</item>
     </string-array>
 
-    <string-array name="raca">
-        <item>GRANDE</item>
-        <item>MÉDIO</item>
-        <item>PEQUENO</item>
-    </string-array>
     <!--Strings referentes ao cadastro de cachorro-->
     <string name="dog_name_edit">Nome do Cachorro</string>
     <string name="dog_age_edit">Idade do Cachorro(meses)</string>

@@ -130,4 +130,12 @@ public class Cachorro {
     public void setIdade(int idade) {
         this.idade = idade;
     }
+
+    @Override
+    public String toString() {
+        return "Cachorro{" +
+                "nome='" + nome + '\'' +
+                ", raca='" + raca + '\'' +
+                '}';
+    }
 }

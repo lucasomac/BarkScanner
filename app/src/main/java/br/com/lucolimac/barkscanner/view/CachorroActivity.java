@@ -52,6 +52,7 @@ public class CachorroActivity extends AppCompatActivity implements NavigationVie
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     Cachorro dog = snap.getValue(Cachorro.class);
                     cachorros.add(dog);
+                    System.out.println("Lucas--" + dog.toString());
                 }
             }
 
@@ -60,7 +61,6 @@ public class CachorroActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
-        System.err.println(cachorros.toArray().toString() + cachorros.size());
         adapter = new CachorroAdapter(cachorros);
         recycler_cachorro = findViewById(R.id.recycler_cachorro);
         recycler_cachorro.setLayoutManager(new LinearLayoutManager(this));

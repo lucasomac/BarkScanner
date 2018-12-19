@@ -15,12 +15,15 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +44,9 @@ public class Gravador extends AppCompatActivity {
     private Spinner spinnerSituacoes;
     private ArrayAdapter<String> situacoesArrayAdapter;
     private String[] situacoes;
+    private Spinner spinnerCachorros;
+    private ArrayAdapter<Cachorro> cachorrosArrayAdapter;
+    private List<Cachorro> cachorros;
     private String path = null;
     private MediaRecorder latido;
     MediaPlayer mediaPlayer;
@@ -48,6 +54,8 @@ public class Gravador extends AppCompatActivity {
     private FirebaseAuth auth;
     private String userEmail;
     private File pasta;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
     private FirebaseStorage mFirebaseStrorage;
     private StorageReference mChatPhotosStorageReference;
 
@@ -60,6 +68,23 @@ public class Gravador extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         userEmail = currentUser.getEmail();
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference();
+//        databaseReference.child("cachorros").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+//                    Cachorro dog = snap.getValue(Cachorro.class);
+//                    cachorros.add(dog);
+//                    System.out.println("Lucas--" + dog.toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 //        Finds
         buttonRecord = findViewById(R.id.button_record);
         buttonStop = findViewById(R.id.button_stop);
@@ -72,7 +97,9 @@ public class Gravador extends AppCompatActivity {
         situacoes = getResources().getStringArray(R.array.situacaoes);
         situacoesArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, situacoes);
         spinnerSituacoes.setAdapter(situacoesArrayAdapter);
-
+        //spinnerCachorros = findViewById(R.id.spinner_cachorros);
+        //cachorrosArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, cachorros);
+        //spinnerSituacoes.setAdapter(cachorrosArrayAdapter);
         buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +111,7 @@ public class Gravador extends AppCompatActivity {
                         pasta.mkdir();
                     }
                     path = pasta.getAbsolutePath().concat("/") + spinnerSituacoes.getSelectedItem().toString() + "-" +
-                            dateFormat.format(new Date()) + "-" + "Latido.3gp";
+                            dateFormat.format(new Date()) + "-" + "Latido.aac";
                     MediaRecorderReady();
                     try {
                         latido.prepare();
@@ -155,8 +182,8 @@ public class Gravador extends AppCompatActivity {
     public void MediaRecorderReady() {
         latido = new MediaRecorder();
         latido.setAudioSource(MediaRecorder.AudioSource.MIC);
-        latido.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        latido.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        latido.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        latido.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         latido.setOutputFile(path);
     }
 

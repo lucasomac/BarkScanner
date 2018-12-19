@@ -62,9 +62,8 @@ public class CadastroCachorro extends AppCompatActivity {
                 databaseReference.push().setValue(dog);
 //                Toast.makeText(null, "Cachorro cadastrado com sucesso!", Toast.LENGTH_LONG).show();
                 Log.d(DOG, dog.getNome() + " adicionado com sucesso!");
+                finish();
                 startActivity(new Intent(CadastroCachorro.this, CachorroActivity.class));
-
-
             }
         });
     }
@@ -87,7 +86,7 @@ public class CadastroCachorro extends AppCompatActivity {
         spinnerPorte = findViewById(R.id.spinner_porte);
         spinnerRaca = findViewById(R.id.spinner_raca);
         portes = getResources().getStringArray(R.array.porte);
-        racas = getResources().getStringArray(R.array.raca);
+        racas = getResources().getStringArray(R.array.racas);
         portesArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, portes);
         racasArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, racas);
         spinnerPorte.setAdapter(portesArrayAdapter);
@@ -97,7 +96,4 @@ public class CadastroCachorro extends AppCompatActivity {
 //        [END Spiners]
     }
 
-    public void validaCampos() {
-
-    }
 }

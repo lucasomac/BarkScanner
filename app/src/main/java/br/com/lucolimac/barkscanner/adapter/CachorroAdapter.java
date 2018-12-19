@@ -15,7 +15,7 @@ import br.com.lucolimac.barkscanner.model.Cachorro;
 
 public class CachorroAdapter extends RecyclerView.Adapter<CachorroAdapter.CachorroViewHolder> {
 
-    List<Cachorro> cachorros;
+    private List<Cachorro> cachorros;
 
     public CachorroAdapter(List<Cachorro> cachorros) {
         this.cachorros = cachorros;

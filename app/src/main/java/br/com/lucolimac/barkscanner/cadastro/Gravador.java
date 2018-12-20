@@ -23,7 +23,6 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,9 +43,9 @@ public class Gravador extends AppCompatActivity {
     private Spinner spinnerSituacoes;
     private ArrayAdapter<String> situacoesArrayAdapter;
     private String[] situacoes;
-    private Spinner spinnerCachorros;
-    private ArrayAdapter<Cachorro> cachorrosArrayAdapter;
-    private List<Cachorro> cachorros;
+    private Spinner spinnerRacas;
+    private ArrayAdapter<String> racasArrayAdapter;
+    private String[] racas;
     private String path = null;
     private MediaRecorder latido;
     MediaPlayer mediaPlayer;
@@ -97,9 +96,12 @@ public class Gravador extends AppCompatActivity {
         situacoes = getResources().getStringArray(R.array.situacaoes);
         situacoesArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, situacoes);
         spinnerSituacoes.setAdapter(situacoesArrayAdapter);
-        //spinnerCachorros = findViewById(R.id.spinner_cachorros);
-        //cachorrosArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, cachorros);
-        //spinnerSituacoes.setAdapter(cachorrosArrayAdapter);
+        racas = getResources().getStringArray(R.array.racas);
+        spinnerRacas = findViewById(R.id.spinner_racas);
+        racasArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, racas);
+        spinnerRacas.setAdapter(racasArrayAdapter);
+        spinnerRacas.setSelection(473);
+        //spinnerRacas;
         buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -40,13 +40,11 @@
         android:id="@+id/spinner_situacao"
         android:layout_width="184dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="107dp"
-        android:layout_marginEnd="93dp"
-        android:spinnerMode="dialog" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:spinnerMode="dialog"
+        android:textAlignment="center" />
 
     <ImageButton
         android:id="@+id/button_record"
@@ -59,15 +57,13 @@
         app:srcCompat="@drawable/baseline_mic_black_24dp" />
 
     <Spinner
-        android:id="@+id/spinner_cachorros"
-        android:layout_width="264dp"
+        android:id="@+id/spinner_racas"
+        android:layout_width="199dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="171dp"
-        android:layout_marginEnd="43dp"
-        android:spinnerMode="dialog" />
+        android:layout_below="@+id/spinner_situacao"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:spinnerMode="dialog"
+        android:textAlignment="center" />
 
 </com.google.android.material.circularreveal.CircularRevealRelativeLayout>

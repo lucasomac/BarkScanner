@@ -95,5 +95,4 @@ public class CadastroCachorro extends AppCompatActivity {
         spinnerRaca.setSelection(2);
 //        [END Spiners]
     }
-
 }

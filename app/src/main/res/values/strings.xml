@@ -12,6 +12,7 @@
     <string name="menu_item_latido">Latido</string>
     <string name="menu_item_cachorro_nav">Cachorros</string>
     <string name="menu_item_latido_nav">Latidos</string>
+    <string name="menu_item_inicio_nav">Início</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -25,8 +26,8 @@
     <string name="sobre_button">Sobre</string>
     <string name="share_button">Compartilhe essa Ideia</string>
     <!--Facebook-->
-    <string name="facebook_application_id" translatable="false">1857006581064469</string>
-    <string name="fb_login_protocol_scheme">fb1857006581064469</string>
+    <string name="facebook_application_id" translatable="false">292512224795260</string>
+    <string name="fb_login_protocol_scheme">fb292512224795260</string>
     <!--Email e Nome-->
     <string name="nome">Lucas Macedo</string>
     <string name="email">lucasomac@outlook.com</string>

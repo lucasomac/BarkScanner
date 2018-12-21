@@ -2,14 +2,13 @@ package br.com.lucolimac.barkscanner.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -19,10 +18,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import br.com.lucolimac.barkscanner.R;
-import br.com.lucolimac.barkscanner.cadastro.Gravador;
+import io.github.yavski.fabspeeddial.FabSpeedDial;
 
 public class LatidoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG_AUTH = "AUTH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +31,9 @@ public class LatidoActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LatidoActivity.this, Gravador.class));
-            }
-        });
+        FabSpeedDial fab = findViewById(R.id.speed_main);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.latido_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -51,7 +45,7 @@ public class LatidoActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.latido_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -91,19 +85,33 @@ public class LatidoActivity extends AppCompatActivity
             startActivity(new Intent(this, LatidoActivity.class));
         } else if (id == R.id.nav_cachorro) {
             startActivity(new Intent(this, CachorroActivity.class));
+        } else if (id == R.id.nav_share) {
+            shareApp();
         } else if (id == R.id.nav_sobre) {
+            startActivity(new Intent(this, Sobre.class));
         } else if (id == R.id.nav_sair) {
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
                             // user is now signed out
+                            Log.d(TAG_AUTH, "Úsuaurio saiu do sistema!");
                             finish();
                         }
                     });
         }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.latido_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void shareApp() {
+        Intent share = new Intent();
+        share.setAction(Intent.ACTION_SEND);
+        share.putExtra(Intent.EXTRA_TITLE, "BarkScanner - Grave o latido do seu cachorro!");
+        share.putExtra(Intent.EXTRA_SUBJECT, "BarkScanner - Grave o latido do seu cachorro!");
+        share.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
+        share.setType("text/plain");
+        startActivity(share);
     }
 }

@@ -41,16 +41,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new AuthUI.IdpConfig.GoogleBuilder().build(),
             new AuthUI.IdpConfig.FacebookBuilder().build());
     private TextView bem_vindo;
-    // private ImageView foto_view;
     // Variaveis
     private FirebaseAuth mFirebaseAuth;
     private ShareActionProvider mShareActionProvider;
+    private TextView name_view;
+    private TextView email_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bem_vindo = findViewById(R.id.bem_vindo);
+        name_view = findViewById(R.id.name_text_view);
+        email_view = findViewById(R.id.email_text_view);
         //------------------------------------------------
         mFirebaseAuth = FirebaseAuth.getInstance();
         //[START Toolbar]
@@ -92,8 +95,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-//                updateInterface(mFirebaseAuth.getCurrentUser());
                 bem_vindo.setText(mFirebaseAuth.getCurrentUser().getDisplayName());
+                //name_view.setText(mFirebaseAuth.getCurrentUser().getDisplayName());
+                //email_view.setText(mFirebaseAuth.getCurrentUser().getEmail());
                 Log.d(TAG_AUTH, "signIn:" + mFirebaseAuth.getCurrentUser().getEmail());
             } else {
                 if (resultCode == RESULT_CANCELED) {

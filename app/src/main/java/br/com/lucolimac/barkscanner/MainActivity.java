@@ -13,11 +13,11 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.annotations.NotNull;
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,10 +28,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import br.com.lucolimac.barkscanner.cadastro.CadastroCachorro;
+import br.com.lucolimac.barkscanner.cadastro.Gravador;
 import br.com.lucolimac.barkscanner.view.CachorroActivity;
 import br.com.lucolimac.barkscanner.view.LatidoActivity;
 import br.com.lucolimac.barkscanner.view.Sobre;
-import io.github.yavski.fabspeeddial.FabSpeedDial;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Firebase Auth  Constantes
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.main_drawer_layout);
+        final DrawerLayout drawer = findViewById(R.id.main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -86,32 +87,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
         //[END Authentication]
-        FabSpeedDial fab = findViewById(R.id.speed_main);
-        fab.setMenuListener(new FabSpeedDial.MenuListener() {
+        SpeedDialView fab = findViewById(R.id.speed_main);
+        fab.inflate(R.menu.speed);
+        fab.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
             @Override
-            public boolean onPrepareMenu(NavigationMenu navigationMenu) {
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    //TODO: Start some activity
+            public boolean onActionSelected(SpeedDialActionItem actionItem) {
+                switch (actionItem.getId()) {
                     case R.id.action_latido:
-                        startActivity(new Intent(null, LatidoActivity.class));
+                        startActivity(new Intent(MainActivity.this, Gravador.class));
+                        return true;
                     case R.id.action_cachorro:
-                        startActivity(new Intent(null, CachorroActivity.class));
+                        startActivity(new Intent(MainActivity.this, CadastroCachorro.class));
+                        return true;
                     case R.id.action_share:
                         shareApp();
+                        return true;
                 }
-                return true;
-            }
-
-            @Override
-            public void onMenuClosed() {
-
+                return false;
             }
         });
+//        fab.setMenuListener(new FabSpeedDial.MenuListener() {
+//            @Override
+//            public boolean onPrepareMenu(NavigationMenu navigationMenu) {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onMenuItemSelected(MenuItem menuItem) {
+//                switch (menuItem.getItemId()) {
+//                    //TODO: Start some activity
+//                    case R.id.action_latido:
+//                        startActivity(new Intent(null, LatidoActivity.class));
+//                        return true;
+//                    case R.id.action_cachorro:
+//                        startActivity(new Intent(null, CachorroActivity.class));
+//                        return true;
+//                    case R.id.action_share:
+//                        shareApp();
+//                        return true;
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public void onMenuClosed() {
+//
+//            }
+//        });
     }
 
     @Override
@@ -178,9 +200,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    //@SuppressWarnings("StatementWithEmptyBody")
     @Override
-    @NotNull
+    @NonNull
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();

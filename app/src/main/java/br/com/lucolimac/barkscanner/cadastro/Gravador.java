@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,8 +57,8 @@ public class Gravador extends AppCompatActivity {
     private File pasta;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    private FirebaseStorage mFirebaseStrorage;
-    private StorageReference mChatPhotosStorageReference;
+    StorageReference storageRef;
+    private FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,8 @@ public class Gravador extends AppCompatActivity {
         racasArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, racas);
         spinnerRacas.setAdapter(racasArrayAdapter);
         spinnerRacas.setSelection(473);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
         //spinnerRacas;
         buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +116,8 @@ public class Gravador extends AppCompatActivity {
                     if (!pasta.exists()) {
                         pasta.mkdir();
                     }
-                    path = pasta.getAbsolutePath().concat("/") + spinnerSituacoes.getSelectedItem().toString() + "-" +
+                    path = pasta.getAbsolutePath().concat("/") + spinnerSituacoes.getSelectedItem().toString()
+                            + "-" + spinnerRacas.getSelectedItem().toString() + "-" +
                             dateFormat.format(new Date()) + "-" + "Latido.aac";
                     MediaRecorderReady();
                     try {
@@ -142,6 +147,10 @@ public class Gravador extends AppCompatActivity {
                 buttonPlayLastRecordAudio.setEnabled(true);
                 buttonRecord.setEnabled(true);
                 buttonStopPlayingRecording.setEnabled(false);
+                storageRef = storage.getReference("latidos");
+                Uri file = Uri.fromFile(new File(path));
+                StorageReference latidoRef = storageRef.child(file.getLastPathSegment());
+                UploadTask uploadTask = latidoRef.putFile(file);
                 Toast.makeText(Gravador.this, "Recording Completed", Toast.LENGTH_LONG).show();
             }
         });

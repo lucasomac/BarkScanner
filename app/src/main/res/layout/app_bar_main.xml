@@ -22,21 +22,5 @@
 
     <include layout="@layout/content_main" />
 
-    <!--<io.github.yavski.fabspeeddial.FabSpeedDial-->
-    <!--android:id="@+id/speed_main"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="bottom|end"-->
-    <!--app:fabGravity="bottom_end"-->
-    <!--app:fabMenu="@menu/speed"-->
-    <!--app:miniFabBackgroundTint="@android:color/white"-->
-    <!--app:miniFabDrawableTint="?attr/colorPrimaryDark"-->
-    <!--app:miniFabTitleTextColor="?attr/colorPrimaryDark" />-->
-
-    <com.leinardi.android.speeddial.SpeedDialView
-        android:id="@+id/speed_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:sdMainFabClosedSrc="@drawable/ic_add_black_48dp_00" />
+    <include layout="@layout/fab_speed" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

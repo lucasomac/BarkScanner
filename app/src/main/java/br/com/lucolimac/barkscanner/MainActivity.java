@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //[START Authentication]
         if (mFirebaseAuth.getCurrentUser() != null) {
             Log.d(TAG_AUTH, "O Úsurairo " + mFirebaseAuth.getCurrentUser().getDisplayName() + " está logado!");
-            //updateInterface(mFirebaseAuth.getCurrentUser());
+            updateInterface(mFirebaseAuth.getCurrentUser());
+            //bem_vindo.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         } else {
             startActivityForResult(AuthUI.getInstance()
                     .createSignInIntentBuilder()
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(new Intent(MainActivity.this, Gravador.class));
                         return true;
                     case R.id.action_cachorro:
+                        finish();
                         startActivity(new Intent(MainActivity.this, CadastroCachorro.class));
                         return true;
                     case R.id.action_share:
@@ -106,34 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
-//        fab.setMenuListener(new FabSpeedDial.MenuListener() {
-//            @Override
-//            public boolean onPrepareMenu(NavigationMenu navigationMenu) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemSelected(MenuItem menuItem) {
-//                switch (menuItem.getItemId()) {
-//                    //TODO: Start some activity
-//                    case R.id.action_latido:
-//                        startActivity(new Intent(null, LatidoActivity.class));
-//                        return true;
-//                    case R.id.action_cachorro:
-//                        startActivity(new Intent(null, CachorroActivity.class));
-//                        return true;
-//                    case R.id.action_share:
-//                        shareApp();
-//                        return true;
-//                }
-//                return false;
-//            }
-//
-//            @Override
-//            public void onMenuClosed() {
-//
-//            }
-//        });
     }
 
     @Override
@@ -143,10 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                bem_vindo.setText(mFirebaseAuth.getCurrentUser().getDisplayName());
-//                name_view.setText(mFirebaseAuth.getCurrentUser().getDisplayName());
-//                email_view.setText(mFirebaseAuth.getCurrentUser().getEmail());
-                //updateInterface(mFirebaseAuth.getCurrentUser());
+                updateInterface(mFirebaseAuth.getCurrentUser());
                 Log.d(TAG_AUTH, "signIn:" + mFirebaseAuth.getCurrentUser().getEmail());
             } else {
                 if (resultCode == RESULT_CANCELED) {
@@ -207,23 +178,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_inicio) {
+            finish();
             startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.nav_latido) {
+            finish();
             startActivity(new Intent(this, LatidoActivity.class));
         } else if (id == R.id.nav_cachorro) {
+            finish();
             startActivity(new Intent(this, CachorroActivity.class));
         } else if (id == R.id.nav_share) {
             shareApp();
         } else if (id == R.id.nav_sobre) {
             startActivity(new Intent(this, Sobre.class));
         } else if (id == R.id.nav_sair) {
+            finish();
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
                             // user is now signed out
                             Log.d(TAG_AUTH, "Úsuaurio saiu do sistema!");
-                            finish();
+//                            finish();
                         }
                     });
         }
@@ -237,14 +212,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         share.setAction(Intent.ACTION_SEND);
         share.putExtra(Intent.EXTRA_TITLE, "BarkScanner - Grave o latido do seu cachorro!");
         share.putExtra(Intent.EXTRA_SUBJECT, "BarkScanner - Grave o latido do seu cachorro!");
-        share.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
+        share.putExtra(Intent.EXTRA_TEXT, "BarkScanner - Grave o latido do seu cachorro!\n" +
+                "Acesse: https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
         share.setType("text/plain");
         startActivity(share);
     }
 
     public void updateInterface(FirebaseUser user) {
-        name_view.setText(user.getDisplayName());
-        email_view.setText(user.getEmail());
-        // bem_vindo.setText("Olá ".concat(user.getDisplayName()) + " seja bem vindo de volta!");
+        //name_view.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        //email_view.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        bem_vindo.setText("Olá ".concat(user.getDisplayName()) + " seja bem vindo de volta!\nSeu email de cadastro é: " + user.getEmail());
     }
 }

@@ -10,6 +10,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,8 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import br.com.lucolimac.barkscanner.MainActivity;
 import br.com.lucolimac.barkscanner.R;
-import io.github.yavski.fabspeeddial.FabSpeedDial;
+import br.com.lucolimac.barkscanner.cadastro.CadastroCachorro;
+import br.com.lucolimac.barkscanner.cadastro.Gravador;
 
 public class LatidoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,7 +35,25 @@ public class LatidoActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FabSpeedDial fab = findViewById(R.id.speed_main);
+        SpeedDialView fab = findViewById(R.id.speed_main);
+        fab.inflate(R.menu.speed);
+        fab.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
+            @Override
+            public boolean onActionSelected(SpeedDialActionItem actionItem) {
+                switch (actionItem.getId()) {
+                    case R.id.action_latido:
+                        startActivity(new Intent(LatidoActivity.this, Gravador.class));
+                        return true;
+                    case R.id.action_cachorro:
+                        startActivity(new Intent(LatidoActivity.this, CadastroCachorro.class));
+                        return true;
+                    case R.id.action_share:
+                        shareApp();
+                        return true;
+                }
+                return false;
+            }
+        });
 
         DrawerLayout drawer = findViewById(R.id.latido_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -80,10 +102,14 @@ public class LatidoActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_latido) {
+        if (id == R.id.nav_inicio) {
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        } else if (id == R.id.nav_latido) {
+            finish();
             startActivity(new Intent(this, LatidoActivity.class));
         } else if (id == R.id.nav_cachorro) {
+            finish();
             startActivity(new Intent(this, CachorroActivity.class));
         } else if (id == R.id.nav_share) {
             shareApp();
@@ -110,7 +136,8 @@ public class LatidoActivity extends AppCompatActivity
         share.setAction(Intent.ACTION_SEND);
         share.putExtra(Intent.EXTRA_TITLE, "BarkScanner - Grave o latido do seu cachorro!");
         share.putExtra(Intent.EXTRA_SUBJECT, "BarkScanner - Grave o latido do seu cachorro!");
-        share.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
+        share.putExtra(Intent.EXTRA_TEXT, "BarkScanner - Grave o latido do seu cachorro!\n" +
+                "Acesse: https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
         share.setType("text/plain");
         startActivity(share);
     }

@@ -4,7 +4,7 @@ import android.media.Image;
 
 import java.util.Objects;
 
-public class Cachorro {
+public class Cachorro2 {
     private String nome;
     private String raca;
     private int idade;
@@ -14,10 +14,10 @@ public class Cachorro {
     private String crmv;
     private Image foto;
 
-    public Cachorro() {
+    public Cachorro2() {
     }
 
-    public Cachorro(String nome, String raca, int idade, String dono, String porte) {
+    public Cachorro2(String nome, String raca, int idade, String dono, String porte) {
 
         this.nome = nome;
         this.raca = raca;
@@ -26,7 +26,7 @@ public class Cachorro {
         this.porte = porte;
     }
 
-    public Cachorro(String nome, String raca, int idade, String dono, String porte, Image foto) {
+    public Cachorro2(String nome, String raca, int idade, String dono, String porte, Image foto) {
 
         this.nome = nome;
         this.raca = raca;
@@ -36,7 +36,7 @@ public class Cachorro {
         this.foto = foto;
     }
 
-    public Cachorro(String nome, String raca, int idade, String dono, String porte, String veterinario, String crmv) {
+    public Cachorro2(String nome, String raca, int idade, String dono, String porte, String veterinario, String crmv) {
         this.nome = nome;
         this.raca = raca;
         this.idade = idade;
@@ -46,7 +46,7 @@ public class Cachorro {
         this.crmv = crmv;
     }
 
-    public Cachorro(String nome, String raca, int idade, String dono, String porte, String veterinario, String crmv, Image foto) {
+    public Cachorro2(String nome, String raca, int idade, String dono, String porte, String veterinario, String crmv, Image foto) {
         this.nome = nome;
         this.raca = raca;
         this.idade = idade;
@@ -84,8 +84,8 @@ public class Cachorro {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Cachorro)) return false;
-        Cachorro cachorro = (Cachorro) o;
+        if (!(o instanceof Cachorro2)) return false;
+        Cachorro2 cachorro = (Cachorro2) o;
         return getIdade() == cachorro.getIdade() &&
                 Objects.equals(getNome(), cachorro.getNome()) &&
                 Objects.equals(getRaca(), cachorro.getRaca()) &&

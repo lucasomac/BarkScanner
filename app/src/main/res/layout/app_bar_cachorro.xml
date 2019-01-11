@@ -22,15 +22,5 @@
 
     <include layout="@layout/content_cachorro" />
 
-    <io.github.yavski.fabspeeddial.FabSpeedDial
-        android:id="@+id/speed_cachorro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:fabGravity="bottom_end"
-        app:fabMenu="@menu/speed"
-        app:miniFabBackgroundTint="@android:color/white"
-        app:miniFabDrawableTint="?attr/colorPrimaryDark"
-        app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
-
+    <include layout="@layout/fab_speed" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

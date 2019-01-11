@@ -6,8 +6,8 @@ android {
         applicationId "br.com.lucolimac.barkscanner"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 6
-        versionName "2.92"
+        versionCode 8
+        versionName "3.12"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,8 +32,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     //DEPÊNDENCIAS DE TERCEIROS
-    //implementation 'com.github.clans:fab:1.6.4'
-    //implementation "com.leinardi.android:speed-dial:2.0.0"
+
     implementation 'io.github.yavski:fab-speed-dial:1.0.7'
     implementation "com.leinardi.android:speed-dial:2.0.1"
     //DEPÊNDENCIAS DO FIREBASE

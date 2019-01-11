@@ -4,8 +4,8 @@
     <string name="action_logout">Logout</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">lucasomac@outlook.com</string>
+    <string name="nav_header_title">Bark Scanner</string>
+    <string name="nav_header_subtitle">barkscanner@barkscanner.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <!--Navigation Menu-->
     <string name="menu_item_cachorro">Cachorro</string>
@@ -28,9 +28,6 @@
     <!--Facebook-->
     <string name="facebook_application_id" translatable="false">292512224795260</string>
     <string name="fb_login_protocol_scheme">fb292512224795260</string>
-    <!--Email e Nome-->
-    <string name="nome">Lucas Macedo</string>
-    <string name="email">lucasomac@outlook.com</string>
 
     <!--Gravador-->
     <string name="stop">STOP</string>
@@ -63,13 +60,15 @@
 
     <!--Strings referentes ao cadastro de cachorro-->
     <string name="dog_name_edit">Nome do Cachorro</string>
-    <string name="dog_age_edit">Idade do Cachorro(meses)</string>
+    <string name="dog_nascimento_edit">Data de Nascimento</string>
     <string name="nome_veterinario">Nome do Veterinario</string>
     <string name="crmv_veterinario">CRMV do veterinario</string>
     <string name="gravar">CADASTRAR</string>
 
     <string name="bem_vindo">Olá seja bem-vindo de volta!!</string>
     <string name="enviar">ENVIAR</string>
+    <string name="sobre">Este projeto faz parte do trabalho de conclusão de curso Ciência da Computação de Lucas de Oliveira Macêdo.
+        O aplicativo BarkScanner tem como objetivo a captura de sinais de áudio em forma de latido de cães para composição de uma base de dados que posteriormente será utilizada para classificação e identificação dos mesmos!</string>
 
 
 </resources>

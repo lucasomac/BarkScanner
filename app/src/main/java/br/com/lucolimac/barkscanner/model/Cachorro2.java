@@ -2,55 +2,63 @@ package br.com.lucolimac.barkscanner.model;
 
 import android.media.Image;
 
-import java.util.Date;
 import java.util.Objects;
 
-public class Cachorro {
+public class Cachorro2 {
     private String nome;
     private String raca;
-    private Date nascimento;
+    private int idade;
+    private String dono;
     private String porte;
     private String veterinario;
     private String crmv;
     private Image foto;
 
-    public Cachorro() {
+    public Cachorro2() {
     }
 
-    public Cachorro(String nome, String raca, Date nascimento, String porte) {
+    public Cachorro2(String nome, String raca, int idade, String dono, String porte) {
 
         this.nome = nome;
         this.raca = raca;
-        this.nascimento = nascimento;
+        this.idade = idade;
+        this.dono = dono;
         this.porte = porte;
     }
 
-    public Cachorro(String nome, String raca, Date nascimento, String porte, Image foto) {
+    public Cachorro2(String nome, String raca, int idade, String dono, String porte, Image foto) {
 
         this.nome = nome;
         this.raca = raca;
-        this.nascimento = nascimento;
+        this.idade = idade;
+        this.dono = dono;
         this.porte = porte;
         this.foto = foto;
     }
 
-    public Cachorro(String nome, String raca, Date nascimento, String porte, String veterinario, String crmv) {
+    public Cachorro2(String nome, String raca, int idade, String dono, String porte, String veterinario, String crmv) {
         this.nome = nome;
         this.raca = raca;
-        this.nascimento = nascimento;
+        this.idade = idade;
+        this.dono = dono;
         this.porte = porte;
         this.veterinario = veterinario;
         this.crmv = crmv;
     }
 
-    public Cachorro(String nome, String raca, Date nascimento, String porte, String veterinario, String crmv, Image foto) {
+    public Cachorro2(String nome, String raca, int idade, String dono, String porte, String veterinario, String crmv, Image foto) {
         this.nome = nome;
         this.raca = raca;
-        this.nascimento = nascimento;
+        this.idade = idade;
+        this.dono = dono;
         this.porte = porte;
         this.veterinario = veterinario;
         this.crmv = crmv;
         this.foto = foto;
+    }
+
+    public String getDono() {
+        return dono;
     }
 
     public String getPorte() {
@@ -76,17 +84,18 @@ public class Cachorro {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Cachorro)) return false;
-        Cachorro cachorro = (Cachorro) o;
-        return getNascimento() == cachorro.getNascimento() &&
+        if (!(o instanceof Cachorro2)) return false;
+        Cachorro2 cachorro = (Cachorro2) o;
+        return getIdade() == cachorro.getIdade() &&
                 Objects.equals(getNome(), cachorro.getNome()) &&
-                Objects.equals(getRaca(), cachorro.getRaca());
+                Objects.equals(getRaca(), cachorro.getRaca()) &&
+                Objects.equals(dono, cachorro.dono);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getNome(), getRaca(), getNascimento());
+        return Objects.hash(getNome(), getRaca(), getIdade(), dono);
     }
 
     public String getNome() {
@@ -114,12 +123,12 @@ public class Cachorro {
         this.foto = foto;
     }
 
-    public Date getNascimento() {
-        return nascimento;
+    public int getIdade() {
+        return idade;
     }
 
-    public void setNascimento(Date nascimento) {
-        this.nascimento = nascimento;
+    public void setIdade(int idade) {
+        this.idade = idade;
     }
 
     @Override

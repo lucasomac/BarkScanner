@@ -7,13 +7,13 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="246dp"
-        android:layout_height="241dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Este projeto faz parte do trabalho de conclusão de curso Ciência da Computação de Lucas de Oliveira Macêdo. O aplicativo BarkScanner tem como objetivo a captura de sinais de áudio em forma de latido de cães para composição de uma base de dados que posteriormente será utilizada para classificação e identificação dos mesmos."
+        android:text="@string/sobre"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="50px"
+        android:textSize="50sp"
         android:textStyle="bold|italic" />
 </RelativeLayout>

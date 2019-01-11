@@ -37,10 +37,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout1">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dog_age"
+            android:id="@+id/dog_nascimento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/dog_age_edit" />
+            android:hint="@string/dog_nascimento_edit"
+            android:inputType="date" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -76,7 +77,8 @@
             android:id="@+id/crmv_veterinario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/crmv_veterinario" />
+            android:hint="@string/crmv_veterinario"
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -121,6 +123,5 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner_porte"
         tools:layout_conversion_absoluteHeight="171dp"
         tools:layout_conversion_absoluteWidth="1dp" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

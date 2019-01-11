@@ -149,7 +149,7 @@ public class Gravador extends AppCompatActivity {
                 buttonStopPlayingRecording.setEnabled(false);
                 storageRef = storage.getReference("latidos");
                 Uri file = Uri.fromFile(new File(path));
-                StorageReference latidoRef = storageRef.child(file.getLastPathSegment());
+                StorageReference latidoRef = storageRef.child(auth.getCurrentUser().getEmail().concat("/") + file.getLastPathSegment());
                 UploadTask uploadTask = latidoRef.putFile(file);
                 Toast.makeText(Gravador.this, "Recording Completed", Toast.LENGTH_LONG).show();
             }

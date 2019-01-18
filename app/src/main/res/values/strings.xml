@@ -70,5 +70,5 @@
     <string name="sobre">Este projeto faz parte do trabalho de conclusão de curso Ciência da Computação de Lucas de Oliveira Macêdo.
         O aplicativo BarkScanner tem como objetivo a captura de sinais de áudio em forma de latido de cães para composição de uma base de dados que posteriormente será utilizada para classificação e identificação dos mesmos!</string>
 
-
+    <string name="selecione_data">SELECONE A DATA</string>
 </resources>

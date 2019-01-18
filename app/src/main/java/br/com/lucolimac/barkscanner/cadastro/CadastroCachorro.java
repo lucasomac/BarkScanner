@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,8 +18,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.lucolimac.barkscanner.MainActivity;
@@ -46,6 +49,8 @@ public class CadastroCachorro extends AppCompatActivity {
     private Cachorro dog;
     private DatePickerDialog dataPickerDialog;
     private Calendar calendar;
+    private final String myFormat = "dd/MM/yyyy";
+    SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.CANADA);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,21 +68,32 @@ public class CadastroCachorro extends AppCompatActivity {
         currentUser = auth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference().child("cachorros/" + currentUser.getUid() + "/");
-        nascimento_dog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendar = Calendar.getInstance();
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int month = calendar.get(Calendar.MONTH);
-                int year = calendar.get(Calendar.YEAR);
 
-                dataPickerDialog = new DatePickerDialog(CadastroCachorro.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        nascimento_dog.setText(month + "/" + dayOfMonth + "/" + year);
-                    }
-                }, month, day, year);
-                (dataPickerDialog).show();
+        nascimento_dog.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                calendar = Calendar.getInstance();
+//                int day;
+//                int month;
+//                int year;
+
+                dataPickerDialog = new DatePickerDialog(CadastroCachorro.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                calendar.set(Calendar.MONTH, month);
+                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                calendar.set(Calendar.YEAR, year);
+//                                day = dayOfMonth;
+//                                month = month;
+//                                year = year;
+//                                nascimento_dog.setText(dayOfMonth + "/" + month + "/" + year);
+                                updateLabel();
+                            }
+                        }, calendar.getTime().getMonth(), calendar.getTime().getDate(), calendar.getTime().getYear());
+                dataPickerDialog.show();
+                return true;
             }
         });
         cadastrar.setOnClickListener(new View.OnClickListener() {
@@ -122,5 +138,11 @@ public class CadastroCachorro extends AppCompatActivity {
         spinnerPorte.setSelected(true);
         spinnerRaca.setSelected(true);
 //        [END Spiners]
+    }
+
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("pt", "BR"));
+        nascimento_dog.setText(sdf.format(calendar.getTime()));
     }
 }

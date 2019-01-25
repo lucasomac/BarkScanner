@@ -16,11 +16,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -51,7 +48,7 @@ public class Gravador extends AppCompatActivity {
     private ArrayAdapter<String> situacoesArrayAdapter;
     private String[] situacoes;
     private Spinner spinnerRacas;
-    private ArrayAdapter<Cachorro> racasArrayAdapter;
+    private ArrayAdapter<String> racasArrayAdapter;
     private String[] racas;
     private String path = null;
     private MediaRecorder latido;
@@ -80,23 +77,26 @@ public class Gravador extends AppCompatActivity {
         userEmail = currentUser.getEmail();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
-        databaseReference.child("cachorros/" + currentUser.getUid() + "/").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                    Cachorro dog = snap.getValue(Cachorro.class);
-                    cachorros.add(dog);
-                    System.out.println("Lucas--" + dog.toString());
-                }
-                racasArrayAdapter =
-                        new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, cachorros);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        databaseReference.child("cachorros/" + currentUser.getUid() + "/").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+//                    Cachorro dog = snap.getValue(Cachorro.class);
+//                    cachorros.add(dog);
+//                    System.out.println("Lucas--" + dog.toString());
+//
+//                }
+//                racasArrayAdapter =
+//                        new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, cachorros);
+//                spinnerRacas.setAdapter(racasArrayAdapter);
+//                spinnerRacas.setSelection(473);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 //        Finds
         buttonRecord = findViewById(R.id.button_record);
         buttonStop = findViewById(R.id.button_stop);
@@ -109,9 +109,9 @@ public class Gravador extends AppCompatActivity {
         situacoes = getResources().getStringArray(R.array.situacaoes);
         situacoesArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, situacoes);
         spinnerSituacoes.setAdapter(situacoesArrayAdapter);
-        //racas = getResources().getStringArray(R.array.racas);
-        //spinnerRacas = findViewById(R.id.spinner_racas);
-        //racasArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, racas);
+        racas = getResources().getStringArray(R.array.racas);
+        spinnerRacas = findViewById(R.id.spinner_racas);
+        racasArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, racas);
         spinnerRacas.setAdapter(racasArrayAdapter);
         spinnerRacas.setSelection(473);
         storage = FirebaseStorage.getInstance();

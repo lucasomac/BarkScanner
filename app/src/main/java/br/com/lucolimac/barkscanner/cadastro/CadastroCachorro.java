@@ -70,29 +70,9 @@ public class CadastroCachorro extends AppCompatActivity {
         databaseReference = database.getReference().child("cachorros/" + currentUser.getUid() + "/");
 
         nascimento_dog.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                calendar = Calendar.getInstance();
-//                int day;
-//                int month;
-//                int year;
-
-                dataPickerDialog = new DatePickerDialog(CadastroCachorro.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                calendar.set(Calendar.MONTH, month);
-                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                calendar.set(Calendar.YEAR, year);
-//                                day = dayOfMonth;
-//                                month = month;
-//                                year = year;
-//                                nascimento_dog.setText(dayOfMonth + "/" + month + "/" + year);
-                                updateLabel();
-                            }
-                        }, calendar.getTime().getMonth(), calendar.getTime().getDate(), calendar.getTime().getYear());
-                dataPickerDialog.show();
+                setDateTimeField();
                 return true;
             }
         });
@@ -138,6 +118,18 @@ public class CadastroCachorro extends AppCompatActivity {
         spinnerPorte.setSelected(true);
         spinnerRaca.setSelected(true);
 //        [END Spiners]
+    }
+
+    private void setDateTimeField() {
+        calendar = Calendar.getInstance();
+        dataPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(year, monthOfYear, dayOfMonth, 0, 0);
+                nascimento_dog.setText(sdf.format(calendar.getTime()));
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        dataPickerDialog.show();
     }
 
     private void updateLabel() {

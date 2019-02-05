@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.circularreveal.CircularRevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gravador_layout"
@@ -12,58 +12,117 @@
         android:id="@+id/button_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/button_stopPlay"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="6dp"
-        android:text="@string/stop" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="92dp"
+        android:text="@string/stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/button_stopPlay"
-        android:layout_alignParentStart="true"
-        android:text="@string/play" />
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="92dp"
+        android:text="@string/play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent" />
     <!--android:layout_alignParentRight="true"-->
     <Button
         android:id="@+id/button_stopPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="462dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="22dp"
         android:layout_marginBottom="44dp"
-        android:text="@string/stop_play" />
+        android:text="@string/stop_play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_stop"
+        app:layout_constraintStart_toEndOf="@+id/button_play"
+        app:layout_constraintTop_toBottomOf="@+id/button_record"
+        app:layout_constraintVertical_bias="0.46" />
 
     <Spinner
         android:id="@+id/spinner_situacao"
-        android:layout_width="184dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
         android:spinnerMode="dialog"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <ImageButton
         android:id="@+id/button_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="130dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/record"
+        app:layout_constraintEnd_toEndOf="@+id/button_stopPlay"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="@+id/button_stopPlay"
+        app:layout_constraintTop_toBottomOf="@+id/clique_gravar"
         app:srcCompat="@drawable/baseline_mic_black_24dp" />
 
     <Spinner
         android:id="@+id/spinner_racas"
-        android:layout_width="199dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_situacao"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:spinnerMode="dialog"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:theme="@style/AppTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selecione_seu_cachorro" />
 
-</com.google.android.material.circularreveal.CircularRevealRelativeLayout>
+    <TextView
+        android:id="@+id/selecione_seu_cachorro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/selecione_cachorro"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="210dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/selecione_comportamento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_racas" />
+
+    <TextView
+        android:id="@+id/clique_gravar"
+        android:layout_width="197dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/clique_gravar"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_situacao"
+        tools:text="@string/clique_gravar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,9 +9,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <!--Navigation Menu-->
     <string name="menu_item_cachorro">Cachorro</string>
-    <string name="menu_item_latido">Latido</string>
+    <string name="menu_item_latido">Gravar Latido</string>
     <string name="menu_item_cachorro_nav">Cachorros</string>
-    <string name="menu_item_latido_nav">Latidos</string>
+    <string name="menu_item_latido_nav">Gravar Latidos</string>
     <string name="menu_item_inicio_nav">Início</string>
 
     <!-- Strings related to login -->
@@ -71,4 +71,7 @@
         O aplicativo BarkScanner tem como objetivo a captura de sinais de áudio em forma de latido de cães para composição de uma base de dados que posteriormente será utilizada para classificação e identificação dos mesmos!</string>
 
     <string name="selecione_data">SELECONE A DATA</string>
+    <string name="selecione_cachorro">SELECONE SEU CACHORRO</string>
+    <string name="selecione_comportamento">SELECONE O COMPORTAMENTO</string>
+    <string name="clique_gravar">CLIQUE NO MIC PARA GRAVAR</string>
 </resources>

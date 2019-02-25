@@ -14,6 +14,9 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +41,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import br.com.lucolimac.barkscanner.R;
 import br.com.lucolimac.barkscanner.model.Cachorro;
+import br.com.lucolimac.barkscanner.model.Latido;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -63,8 +67,10 @@ public class Gravador extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     StorageReference storageRef;
+    StorageReference latidoRef;
     private FirebaseStorage storage;
     private List<String> cachorros;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +91,7 @@ public class Gravador extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     Cachorro dog = snap.getValue(Cachorro.class);
+                    cao = dog;
                     cachorros.add(dog.getNome().concat("-").concat(dog.getRaca()));
                     System.out.println("Lucas--" + dog.toString());
                 }
@@ -163,8 +170,57 @@ public class Gravador extends AppCompatActivity {
                 buttonStopPlayingRecording.setEnabled(false);
                 storageRef = storage.getReference("latidos");
                 Uri file = Uri.fromFile(new File(path));
-                StorageReference latidoRef = storageRef.child(auth.getCurrentUser().getEmail().concat("/") + file.getLastPathSegment());
+                latidoRef = storageRef.child(auth.getCurrentUser().getUid().concat("/") + file.getLastPathSegment());
                 UploadTask uploadTask = latidoRef.putFile(file);
+//                Task<Uri> urlTask =
+                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        // Continue with the task to get the download URL
+                        return latidoRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            System.err.println(downloadUri);
+                            Latido latido = new Latido(cao, downloadUri, spinnerSituacoes.getSelectedItem().toString());
+                            System.out.println(latido.getSinal());
+//                            FirebaseUser currentUser = auth.getCurrentUser();
+////                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                            databaseReference = database.getReference().child("latidos/" + currentUser.getUid() + "/");
+//                            databaseReference.push().setValue(latido);
+                        } else {
+                            // Handle failures
+                            // ...
+
+
+                        }
+                    }
+                });
+//                Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+//                        .setLink(Uri.parse("https://www.example.com/"))
+//                        .setDomainUriPrefix("https://example.page.link")
+//                        // Set parameters
+//                        // ...
+//                        .buildShortDynamicLink()
+//                        .addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+//                                if (task.isSuccessful()) {
+//                                    // Short link created
+//                                    Uri shortLink = task.getResult().getShortLink();
+//                                    Uri flowchartLink = task.getResult().getPreviewLink();
+//                                } else {
+//                                    // Error
+//                                    // ...
+//                                }
+//                            }
+//                        });
                 Toast.makeText(Gravador.this, "Recording Completed", Toast.LENGTH_LONG).show();
             }
         });

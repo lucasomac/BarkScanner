@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +39,7 @@ public class CadastroCachorro extends AppCompatActivity {
     private ArrayAdapter<String> portesArrayAdapter;
     private String[] portes;
     private TextInputEditText nome_dog;
-    private TextInputEditText nascimento_dog;
+    private TextView nascimento_dog;
     private TextInputEditText nome_veter;
     private TextInputEditText crmv_veter;
     private Button cadastrar;
@@ -47,8 +47,6 @@ public class CadastroCachorro extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
     private Cachorro dog;
-    private DatePickerDialog dataPickerDialog;
-    private Calendar calendar;
     private final String myFormat = "dd/MM/yyyy";
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.CANADA);
 
@@ -69,11 +67,10 @@ public class CadastroCachorro extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference().child("cachorros/" + currentUser.getUid() + "/");
 
-        nascimento_dog.setOnTouchListener(new View.OnTouchListener() {
+        nascimento_dog.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 setDateTimeField();
-                return true;
             }
         });
         cadastrar.setOnClickListener(new View.OnClickListener() {
@@ -121,20 +118,25 @@ public class CadastroCachorro extends AppCompatActivity {
     }
 
     private void setDateTimeField() {
-        calendar = Calendar.getInstance();
-        dataPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener datePickerDialogListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                calendar.set(year, monthOfYear, dayOfMonth, 0, 0);
-                nascimento_dog.setText(sdf.format(calendar.getTime()));
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                nascimento_dog.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
             }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        };
+        DatePickerDialog dataPickerDialog = new DatePickerDialog(this, datePickerDialogListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         dataPickerDialog.show();
     }
 
-    private void updateLabel() {
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("pt", "BR"));
-        nascimento_dog.setText(sdf.format(calendar.getTime()));
-    }
+//    private void setDateTimeField2() {
+//
+//        dataPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                calendar.set(year, monthOfYear, dayOfMonth, 0, 0);
+//                nascimento_dog.setText(sdf.format(calendar.getTime()));
+//            }
+//        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+//    }
 }

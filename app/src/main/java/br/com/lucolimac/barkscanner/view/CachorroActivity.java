@@ -67,7 +67,7 @@ public class CachorroActivity extends AppCompatActivity implements NavigationVie
                     cachorros.add(dog);
                     Log.d(TAG_DOG, "Catiorro é:\n" + dog);
                     listView_cachorro = findViewById(R.id.lista_cachorro);
-                    adapter_cachorros = new ArrayAdapter<Cachorro>(getApplicationContext(), simple_list_item_1, cachorros);
+                    adapter_cachorros = new ArrayAdapter<>(getApplicationContext(), simple_list_item_1, cachorros);
                     listView_cachorro.setAdapter(adapter_cachorros);
                 }
 
@@ -148,7 +148,7 @@ public class CachorroActivity extends AppCompatActivity implements NavigationVie
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_inicio) {
@@ -165,15 +165,17 @@ public class CachorroActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_sobre) {
             startActivity(new Intent(this, Sobre.class));
         } else if (id == R.id.nav_sair) {
+            finish();
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
                             // user is now signed out
                             Log.d(TAG_AUTH, "Úsuaurio saiu do sistema!");
-                            finish();
+//                            finish();
                         }
                     });
+            startActivity(new Intent(this, MainActivity.class));
         }
         DrawerLayout drawer = findViewById(R.id.cachorro_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

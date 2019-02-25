@@ -116,15 +116,17 @@ public class LatidoActivity extends AppCompatActivity
         } else if (id == R.id.nav_sobre) {
             startActivity(new Intent(this, Sobre.class));
         } else if (id == R.id.nav_sair) {
+            finish();
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
                             // user is now signed out
                             Log.d(TAG_AUTH, "Úsuaurio saiu do sistema!");
-                            finish();
+//                            finish();
                         }
                     });
+            startActivity(new Intent(this, MainActivity.class));
         }
         DrawerLayout drawer = findViewById(R.id.latido_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

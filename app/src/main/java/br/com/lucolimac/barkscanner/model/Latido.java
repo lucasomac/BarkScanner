@@ -1,13 +1,11 @@
 package br.com.lucolimac.barkscanner.model;
 
-import android.net.Uri;
-
 public class Latido {
     private Cachorro cao;
-    private Uri sinal;
+    private String sinal;
     private String situacao;
 
-    public Latido(Cachorro cao, Uri sinal, String situacao) {
+    public Latido(Cachorro cao, String sinal, String situacao) {
         this.cao = cao;
         this.sinal = sinal;
         this.situacao = situacao;
@@ -20,7 +18,7 @@ public class Latido {
         return cao;
     }
 
-    public Uri getSinal() {
+    public String getSinal() {
         return sinal;
     }
 

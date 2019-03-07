@@ -122,7 +122,7 @@ public class Gravador extends AppCompatActivity {
         spinnerRacas = findViewById(R.id.spinner_racas);
 //        racasArrayAdapter = new ArrayAdapter<>(Gravador.this, android.R.layout.simple_spinner_dropdown_item, racas);
 //        spinnerRacas.setAdapter(racasArrayAdapter);
-        //spinnerRacas.setSelection(473);
+// sspinnerRacas.setSelection(473);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         //spinnerRacas;
@@ -188,12 +188,12 @@ public class Gravador extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Uri downloadUri = task.getResult();
                             System.err.println(downloadUri);
-                            Latido latido = new Latido(cao, downloadUri, spinnerSituacoes.getSelectedItem().toString());
+                            Latido latido = new Latido(cao, downloadUri.toString(), spinnerSituacoes.getSelectedItem().toString());
                             System.out.println(latido.getSinal());
-//                            FirebaseUser currentUser = auth.getCurrentUser();
-////                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                            databaseReference = database.getReference().child("latidos/" + currentUser.getUid() + "/");
-//                            databaseReference.push().setValue(latido);
+                            FirebaseUser currentUser = auth.getCurrentUser();
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            databaseReference = database.getReference().child("latidos/" + currentUser.getUid() + "/");
+                            databaseReference.push().setValue(latido);
                         } else {
                             // Handle failures
                             // ...

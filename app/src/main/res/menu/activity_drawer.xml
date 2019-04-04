@@ -13,6 +13,10 @@
             android:icon="@drawable/baseline_mic_black_24dp"
             android:title="@string/menu_item_latido_nav" />
         <item
+            android:id="@+id/nav_idetificar"
+            android:icon="@drawable/ic_menu_identificar"
+            android:title="@string/menu_item_identificar_nav" />
+        <item
             android:id="@+id/nav_cachorro"
             android:icon="@drawable/logo_dog_paw"
             android:title="@string/menu_item_cachorro_nav" />

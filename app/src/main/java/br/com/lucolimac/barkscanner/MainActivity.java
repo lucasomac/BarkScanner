@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import br.com.lucolimac.barkscanner.cadastro.CadastroCachorro;
 import br.com.lucolimac.barkscanner.cadastro.Gravador;
+import br.com.lucolimac.barkscanner.view.ActivityIdentificar;
 import br.com.lucolimac.barkscanner.view.CachorroActivity;
 import br.com.lucolimac.barkscanner.view.LatidoActivity;
 import br.com.lucolimac.barkscanner.view.Sobre;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView bem_vindo;
     private TextView name_view;
     private TextView email_view;
+    private ImageView image_view;
     // Variaveis
     private FirebaseAuth mFirebaseAuth;
 
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bem_vindo = findViewById(R.id.bem_vindo);
         name_view = findViewById(R.id.name_text_view);
         email_view = findViewById(R.id.email_text_view);
+        image_view = findViewById(R.id.image_mic);
         //------------------------------------------------
         mFirebaseAuth = FirebaseAuth.getInstance();
         //[START Toolbar]
@@ -183,6 +187,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_latido) {
             finish();
             startActivity(new Intent(this, LatidoActivity.class));
+        } else if (id == R.id.nav_idetificar) {
+            //finish();
+            startActivity(new Intent(this, ActivityIdentificar.class));
         } else if (id == R.id.nav_cachorro) {
             finish();
             startActivity(new Intent(this, CachorroActivity.class));
@@ -220,8 +227,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void updateInterface(FirebaseUser user) {
-        //name_view.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-        //email_view.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        bem_vindo.setText("Olá ".concat(user.getDisplayName()) + " seja bem vindo de volta!\nSeu email de cadastro é: " + user.getEmail());
+//        name_view.setText(user.getDisplayName());
+//        email_view.setText(user.getEmail());
+//        image_view = (user.getPhotoUrl()).
+//        Bitmap myImg = BitmapFactory.decodeFile(user.getPhotoUrl().getPath());
+//        image_view.setImageBitmap(myImg);
+        bem_vindo.setText("Olá ".concat(user.getDisplayName()) + " bem vindo de volta!");
+//        \nSeu email de cadastro é: " + user.getEmail()
     }
 }

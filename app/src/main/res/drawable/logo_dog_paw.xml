@@ -2,7 +2,7 @@
     android:width="256dp"
     android:height="256dp"
     android:viewportWidth="48"
-    android:viewportHeight="49">
+    android:viewportHeight="48">
     <path
         android:name="Forma 1"
         android:fillColor="#000"

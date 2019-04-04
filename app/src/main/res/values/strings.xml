@@ -13,6 +13,7 @@
     <string name="menu_item_cachorro_nav">Cachorros</string>
     <string name="menu_item_latido_nav">Gravar Latidos</string>
     <string name="menu_item_inicio_nav">Início</string>
+    <string name="menu_item_identificar_nav">Identificar latidos</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -73,4 +74,6 @@
     <string name="selecione_cachorro">SELECONE SEU CACHORRO</string>
     <string name="selecione_comportamento">SELECONE O COMPORTAMENTO</string>
     <string name="clique_gravar">CLIQUE NO MIC PARA GRAVAR</string>
+
+
 </resources>

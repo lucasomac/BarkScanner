@@ -157,6 +157,9 @@ public class CachorroActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_latido) {
             finish();
             startActivity(new Intent(this, LatidoActivity.class));
+        } else if (id == R.id.nav_idetificar) {
+            //finish();
+            startActivity(new Intent(this, ActivityIdentificar.class));
         } else if (id == R.id.nav_cachorro) {
             finish();
             startActivity(new Intent(this, CachorroActivity.class));

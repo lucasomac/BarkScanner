@@ -82,7 +82,7 @@ public class Gravador extends AppCompatActivity {
         cachorros = new ArrayList<>();
         spinnerRacas = findViewById(R.id.spinner_racas);
         auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
+        final FirebaseUser currentUser = auth.getCurrentUser();
         userEmail = currentUser.getEmail();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
@@ -140,6 +140,7 @@ public class Gravador extends AppCompatActivity {
                     path = pasta.getAbsolutePath().concat("/") + spinnerSituacoes.getSelectedItem().toString()
                             + "-" + raca + "-" +
                             dateFormat.format(new Date()) + "-" + "Latido.aac";
+                    buttonPlayLastRecordAudio.setEnabled(false);
                     MediaRecorderReady();
                     try {
                         latido.prepare();
@@ -184,8 +185,16 @@ public class Gravador extends AppCompatActivity {
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
+                    public void onComplete(@NonNull final Task<Uri> task) {
                         if (task.isSuccessful()) {
+//                            databaseReference.child("cachorros/" + currentUser.getUid() + "/").addValueEventListener(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                    for (DataSnapshot snap : dataSnapshot.getChildren()) {
+//                                        if (spinnerRacas.getSelectedItem().toString().split("-", 2)[0].compareToIgnoreCase(snap.getValue(Cachorro.class).getNome()) == 0) {
+//                                            cao = dataSnapshot.getValue(Cachorro.class);
+//                                        }
+//                                    }
                             Uri downloadUri = task.getResult();
                             System.err.println(downloadUri);
                             Latido latido = new Latido(cao, downloadUri.toString(), spinnerSituacoes.getSelectedItem().toString());
@@ -194,6 +203,14 @@ public class Gravador extends AppCompatActivity {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             databaseReference = database.getReference().child("latidos/" + currentUser.getUid() + "/");
                             databaseReference.push().setValue(latido);
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                }
+//                            });
+
                         } else {
                             // Handle failures
                             // ...
@@ -201,25 +218,6 @@ public class Gravador extends AppCompatActivity {
                         }
                     }
                 });
-//                Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
-//                        .setLink(Uri.parse("https://www.example.com/"))
-//                        .setDomainUriPrefix("https://example.page.link")
-//                        // Set parameters
-//                        // ...
-//                        .buildShortDynamicLink()
-//                        .addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<ShortDynamicLink> task) {
-//                                if (task.isSuccessful()) {
-//                                    // Short link created
-//                                    Uri shortLink = task.getResult().getShortLink();
-//                                    Uri flowchartLink = task.getResult().getPreviewLink();
-//                                } else {
-//                                    // Error
-//                                    // ...
-//                                }
-//                            }
-//                        });
                 Toast.makeText(Gravador.this, "Recording Completed", Toast.LENGTH_LONG).show();
             }
         });
@@ -228,6 +226,7 @@ public class Gravador extends AppCompatActivity {
             @Override
             public void onClick(View view) throws IllegalArgumentException, SecurityException, IllegalStateException {
                 buttonStop.setEnabled(false);
+                buttonPlayLastRecordAudio.setEnabled(false);
                 buttonRecord.setEnabled(false);
                 buttonStopPlayingRecording.setEnabled(true);
                 mediaPlayer = new MediaPlayer();
@@ -255,6 +254,7 @@ public class Gravador extends AppCompatActivity {
                     mediaPlayer.release();
                     MediaRecorderReady();
                 }
+                buttonPlayLastRecordAudio.setEnabled(true);
             }
         });
     }

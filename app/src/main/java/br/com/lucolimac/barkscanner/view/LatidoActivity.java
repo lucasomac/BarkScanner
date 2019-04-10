@@ -10,11 +10,18 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -22,23 +29,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.com.lucolimac.barkscanner.MainActivity;
 import br.com.lucolimac.barkscanner.R;
-import br.com.lucolimac.barkscanner.adapter.AdapterLatido;
+import br.com.lucolimac.barkscanner.adapter.LatidoAdapter;
 import br.com.lucolimac.barkscanner.cadastro.CadastroCachorro;
 import br.com.lucolimac.barkscanner.cadastro.Gravador;
-import br.com.lucolimac.barkscanner.model.Cachorro;
 import br.com.lucolimac.barkscanner.model.Latido;
 
 public class LatidoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG_AUTH = "AUTH";
-    private RecyclerView latidoRecyclerView;
-    private AdapterLatido latidoAdapter;
-    private ArrayList latidos;
+    private static final String TAG_LATIDO = "LATIDOS";
+    private LatidoAdapter latidoAdapter;
+    private RecyclerView latidosRecyclerView;
+    private LinearLayoutManager layoutManagerLatido = new LinearLayoutManager(this);
+    private List<Latido> latidos = new ArrayList<>();
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +58,53 @@ public class LatidoActivity extends AppCompatActivity
         setContentView(R.layout.activity_latido);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        latidos.add(new Latido(new Cachorro("joao", "piquenes", new Date(), "grande"), "Comendo", "TRCA"));
+
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference().child("latidos/" + currentUser.getUid() + "/");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    Latido latido = snap.getValue(Latido.class);
+                    latidos.add(latido);
+                    Log.d(TAG_LATIDO, "Latido é:\n" + latido);
+                    //layoutManagerLatido = new LinearLayoutManager(this);
+                }
+                System.out.println("O tamanho do vetor de latidos é: " + latidos.size());
+                latidosRecyclerView = findViewById(R.id.latido_recyclerview);
+                latidosRecyclerView.setHasFixedSize(true);
+                latidoAdapter = new LatidoAdapter(latidos);
+                latidosRecyclerView.setLayoutManager(layoutManagerLatido);
+                latidosRecyclerView.setAdapter(latidoAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+//        latidos.add(new Latido(new Cachorro("Buchecha", "Chow-Chow", new Date(), "grande"), "https://google.com.br", "Comendo"));
+
+
         SpeedDialView fab = findViewById(R.id.speed_main);
         fab.inflate(R.menu.speed);
         fab.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
@@ -75,7 +133,6 @@ public class LatidoActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setupRecycler();
     }
 
     @Override
@@ -158,21 +215,5 @@ public class LatidoActivity extends AppCompatActivity
                 "Acesse: https://play.google.com/store/apps/details?id=br.com.lucolimac.barkscanner");
         share.setType("text/plain");
         startActivity(share);
-    }
-
-    private void setupRecycler() {
-
-        // Configurando o gerenciador de layout para ser uma lista.
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        latidoRecyclerView.setLayoutManager(layoutManager);
-
-        // Adiciona o adapter que irá anexar os objetos à lista.
-        // Está sendo criado com lista vazia, pois será preenchida posteriormente.
-        latidoAdapter = new AdapterLatido(latidos);
-        latidoRecyclerView.setAdapter(latidoAdapter);
-
-        // Configurando um dividr entre linhas, para uma melhor visualização.
-        latidoRecyclerView.addItemDecoration(
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 }

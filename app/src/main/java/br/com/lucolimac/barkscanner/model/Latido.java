@@ -29,4 +29,12 @@ public class Latido {
     public void setSituacao(String situacao) {
         this.situacao = situacao;
     }
+
+    @Override
+    public String toString() {
+        return "Latido{" +
+                "cao=" + cao +
+                ", situacao='" + situacao + '\'' +
+                '}';
+    }
 }

@@ -14,8 +14,8 @@ android {
         applicationId "br.com.lucolimac.barkscanner"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 17
-        versionName "4.9"
+        versionCode 18
+        versionName "5.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,7 +32,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //DEPÊNDENCIAS DO GOOGLE
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -47,7 +47,7 @@ dependencies {
     //DEPÊNDENCIAS DO FIREBASE
     implementation 'com.google.firebase:firebase-database:16.1.0'
     implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-auth:16.2.1'
     //implementation 'com.google.firebase:firebase-dynamic-links:16.1.8'
     //Firebase UI
     implementation 'com.firebaseui:firebase-ui-auth:4.2.1'

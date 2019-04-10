@@ -8,10 +8,16 @@
     tools:context=".view.CachorroActivity"
     tools:showIn="@layout/app_bar_cachorro">
 
-    <ListView
-        android:id="@+id/lista_cachorro"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cachorro_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/layout_cardview_cachorro" />
 
-    </ListView>
+    <!--<ListView-->
+    <!--android:id="@+id/lista_cachorro"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--</ListView>-->
 </RelativeLayout>

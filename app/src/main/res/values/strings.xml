@@ -74,6 +74,7 @@
     <string name="selecione_cachorro">SELECONE SEU CACHORRO</string>
     <string name="selecione_comportamento">SELECONE O COMPORTAMENTO</string>
     <string name="clique_gravar">CLIQUE NO MIC PARA GRAVAR</string>
-
+    <!--CardView-->
+    <string name="card_item_situacao">Situação</string>
 
 </resources>

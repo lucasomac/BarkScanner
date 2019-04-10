@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_cachorro"
+        style="@style/AppTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/card_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/play"
+                android:padding="24dp"
+                tools:srcCompat="@drawable/image_card_cachorro" />
+
+            <TextView
+                android:id="@+id/card_cahorro_nome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/card_imageview"
+                android:text="@string/menu_item_cachorro"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/card_cachorro_raca"
+                android:layout_width="183dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_cahorro_nome"
+                android:layout_toEndOf="@+id/card_imageview"
+                android:text="Raça"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/card_cachorro_nascimento"
+                android:layout_width="183dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_cachorro_raca"
+                android:layout_toEndOf="@+id/card_imageview"
+                android:text="Nascimento"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

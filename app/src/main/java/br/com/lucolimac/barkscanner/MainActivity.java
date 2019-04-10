@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +33,6 @@ import br.com.lucolimac.barkscanner.cadastro.CadastroCachorro;
 import br.com.lucolimac.barkscanner.cadastro.Gravador;
 import br.com.lucolimac.barkscanner.view.ActivityIdentificar;
 import br.com.lucolimac.barkscanner.view.CachorroActivity;
-import br.com.lucolimac.barkscanner.view.CachorroActivityRecycler;
 import br.com.lucolimac.barkscanner.view.LatidoActivity;
 import br.com.lucolimac.barkscanner.view.Sobre;
 
@@ -52,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView name_view;
     private TextView email_view;
     private ImageView image_view;
-    private Button b3;
     // Variaveis
     private FirebaseAuth mFirebaseAuth;
 
@@ -60,13 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        b3 = findViewById(R.id.button3);
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CachorroActivityRecycler.class));
-            }
-        });
         bem_vindo = findViewById(R.id.bem_vindo);
         name_view = findViewById(R.id.name_text_view);
         email_view = findViewById(R.id.email_text_view);

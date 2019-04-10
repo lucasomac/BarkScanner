@@ -31,19 +31,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import br.com.lucolimac.barkscanner.MainActivity;
 import br.com.lucolimac.barkscanner.R;
+import br.com.lucolimac.barkscanner.adapter.CachorroAdapter;
 import br.com.lucolimac.barkscanner.cadastro.CadastroCachorro;
 import br.com.lucolimac.barkscanner.cadastro.Gravador;
 import br.com.lucolimac.barkscanner.model.Cachorro;
-
-import static android.R.layout.simple_list_item_1;
 
 public class CachorroActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG_AUTH = "AUTH";
     private static final String TAG_DOG = "DOGS";
     private ListView listView_cachorro;
     private ArrayAdapter<Cachorro> adapter_cachorros;
+    private CachorroAdapter cachorroAdapter;
+    private RecyclerView cachorrosRecyclerView;
+    private LinearLayoutManager layoutManagerCachorro = new LinearLayoutManager(this);
     private List<Cachorro> cachorros = new ArrayList<>();
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
@@ -66,11 +70,15 @@ public class CachorroActivity extends AppCompatActivity implements NavigationVie
                     Cachorro dog = snap.getValue(Cachorro.class);
                     cachorros.add(dog);
                     Log.d(TAG_DOG, "Catiorro é:\n" + dog);
-                    listView_cachorro = findViewById(R.id.lista_cachorro);
-                    adapter_cachorros = new ArrayAdapter<>(getApplicationContext(), simple_list_item_1, cachorros);
-                    listView_cachorro.setAdapter(adapter_cachorros);
+//                    listView_cachorro = findViewById(R.id.lista_cachorro);
+//                    adapter_cachorros = new ArrayAdapter<>(getApplicationContext(), simple_list_item_1, cachorros);
+//                    listView_cachorro.setAdapter(adapter_cachorros);
                 }
-
+                cachorrosRecyclerView = findViewById(R.id.cachorro_recyclerview);
+                cachorrosRecyclerView.setHasFixedSize(true);
+                cachorroAdapter = new CachorroAdapter(cachorros);
+                cachorrosRecyclerView.setLayoutManager(layoutManagerCachorro);
+                cachorrosRecyclerView.setAdapter(cachorroAdapter);
             }
 
             @Override

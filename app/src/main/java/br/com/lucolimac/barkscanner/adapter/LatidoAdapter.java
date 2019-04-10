@@ -1,11 +1,13 @@
 package br.com.lucolimac.barkscanner.adapter;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,10 @@ public class LatidoAdapter extends RecyclerView.Adapter<LatidoAdapter.LatidoView
     public void onBindViewHolder(@NonNull LatidoViewHolder holder, int position) {
         holder.cardLatidoCachorro.setText(latidos.get(position).getCao().getNome());
         holder.cardLatidoSituacao.setText(latidos.get(position).getSituacao());
+        System.out.println(latidos.get(position).getSinal());
+        File arquivo = new File(latidos.get(position).getSinal().split("/")[latidos.get(position).getSinal().split("/").length - 1]);
+        System.out.println(arquivo.toString());
+        Uri dado = Uri.parse(latidos.get(position).getSinal());
         holder.cardLatidoPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

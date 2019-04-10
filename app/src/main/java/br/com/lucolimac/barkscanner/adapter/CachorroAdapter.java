@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -35,7 +36,7 @@ public class CachorroAdapter extends RecyclerView.Adapter<CachorroAdapter.Latido
     public void onBindViewHolder(@NonNull LatidoViewHolder holder, int position) {
         holder.cardCachorroNome.setText(cachorros.get(position).getNome());
         holder.cardCachorroRaca.setText(cachorros.get(position).getRaca());
-        Format formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Format formatter = new SimpleDateFormat("dd/MM/yyyy", new Locale("pt-BR", "Brasil"));
         holder.cardCachorroNascimento.setText(formatter.format(cachorros.get(position).getNascimento()));
         holder.cardCachorroIcone.setImageResource(R.drawable.image_card_cachorro);
     }
@@ -65,7 +66,6 @@ public class CachorroAdapter extends RecyclerView.Adapter<CachorroAdapter.Latido
             this.cardCachorroRaca = itemView.findViewById(R.id.card_cachorro_raca);
             this.cardCachorroNascimento = itemView.findViewById(R.id.card_cachorro_nascimento);
             this.cardCachorroIcone = itemView.findViewById(R.id.card_imageview);
-
         }
     }
 }

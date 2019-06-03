@@ -119,7 +119,7 @@
         tools:layout_conversion_absoluteHeight="24dp"
         tools:layout_conversion_absoluteWidth="368dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/grava_dog"
         style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"

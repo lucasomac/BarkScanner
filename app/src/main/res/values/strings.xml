@@ -52,6 +52,7 @@
         <item>FELIZ</item>
         <item>TRISTE</item>
         <item>DORMINDO</item>
+        <item>RAIVA</item>
     </string-array>
     <string-array name="porte">
         <item>GRANDE</item>
@@ -76,5 +77,6 @@
     <string name="clique_gravar">CLIQUE NO MIC PARA GRAVAR</string>
     <!--CardView-->
     <string name="card_item_situacao">Situação</string>
+    <string name="em_breve">Disponível em breve!</string>
 
 </resources>

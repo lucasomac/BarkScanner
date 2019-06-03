@@ -10,5 +10,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:sdMainFabClosedSrc="@drawable/ic_add_black_48dp_00" />
+        app:sdMainFabClosedSrc="@drawable/ic_add_black_48dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
